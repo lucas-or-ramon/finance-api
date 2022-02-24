@@ -1,7 +1,7 @@
 package br.com.devcanoa.finance.controller;
 
-import br.com.devcanoa.finance.model.AnnualSummary;
-import br.com.devcanoa.finance.model.MonthlySummary;
+import br.com.devcanoa.finance.domain.AnnualSummary;
+import br.com.devcanoa.finance.domain.MonthlySummary;
 import br.com.devcanoa.finance.service.SummaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

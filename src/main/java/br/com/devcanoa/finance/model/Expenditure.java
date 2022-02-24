@@ -1,6 +1,7 @@
 package br.com.devcanoa.finance.model;
 
 import br.com.devcanoa.finance.controller.request.RegistryRequest;
+import br.com.devcanoa.finance.domain.Category;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;

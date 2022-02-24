@@ -1,4 +1,4 @@
-package br.com.devcanoa.finance.model;
+package br.com.devcanoa.finance.domain;
 
 public class CategorySummary {
     private final String category;

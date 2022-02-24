@@ -1,5 +1,8 @@
 package br.com.devcanoa.finance.service;
 
+import br.com.devcanoa.finance.domain.AnnualSummary;
+import br.com.devcanoa.finance.domain.CategorySummary;
+import br.com.devcanoa.finance.domain.MonthlySummary;
 import br.com.devcanoa.finance.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
@@ -28,37 +31,23 @@ public class SummaryService {
     }
 
     public MonthlySummary getMonthlySummary(LocalDate date) {
-        Double totalRevenue = getTotalRevenuesByMonth(date);
+        List<Revenue> revenues = revenueService.getRevenuesByYearAndMonth(date);
+        Double totalRevenue = revenues.stream().mapToDouble(Revenue::getValue).sum();
 
-        List<Expenditure> expenditures = getExpenditures(date);
-        Double totalExpenditure = getTotalExpenditureByMonth(expenditures);
-
-        Double balance = totalRevenue - totalExpenditure;
+        List<Expenditure> expenditures = expenditureService.getExpendituresByYearAndMonth(date);
+        Double totalExpenditure = expenditures.stream().mapToDouble(Expenditure::getValue).sum();
 
         List<CategorySummary> categorySummaries = getCategorySummaries(expenditures);
+        Double balance = totalRevenue - totalExpenditure;
 
         return new MonthlySummary(date, totalRevenue, totalExpenditure, balance, categorySummaries);
-    }
-
-    private List<Expenditure> getExpenditures(LocalDate date) {
-        return expenditureService.getExpendituresByYearAndMonth(date);
-    }
-
-    public Double getTotalRevenuesByMonth(LocalDate date) {
-        List<Revenue> revenues = revenueService.getRevenuesByYearAndMonth(date);
-
-        return revenues.stream().mapToDouble(Revenue::getValue).sum();
-    }
-
-    private Double getTotalExpenditureByMonth(List<Expenditure> expenditures) {
-        return expenditures.stream().mapToDouble(Expenditure::getValue).sum();
     }
 
     private List<CategorySummary> getCategorySummaries(List<Expenditure> expenditures) {
         List<CategorySummary> categorySummaries = new ArrayList<>();
 
-        expenditures.stream().collect(Collectors.groupingBy(Expenditure::getCategory))
-                .forEach((key, value) -> categorySummaries.add(new CategorySummary(key.getValue(), value.stream().mapToDouble(Expenditure::getValue).sum())));
+        expenditures.stream().collect(Collectors.groupingBy(Expenditure::getCategory)).forEach((key, value) ->
+                categorySummaries.add(new CategorySummary(key.getValue(), value.stream().mapToDouble(Expenditure::getValue).sum())));
 
         return categorySummaries;
     }
@@ -67,9 +56,8 @@ public class SummaryService {
         List<CompletableFuture<Void>> futures = new ArrayList<>();
         AnnualSummary annualSummary = new AnnualSummary();
 
-        IntStream.rangeClosed(0, 11).forEach(integer ->
-                futures.add(CompletableFuture.runAsync(() ->
-                        annualSummary.add(getMonthlySummary(dateFrom.minusMonths(integer))), taskExecutor)
+        IntStream.rangeClosed(0, 11).forEach(i ->
+                futures.add(CompletableFuture.runAsync(() -> annualSummary.add(getMonthlySummary(dateFrom.minusMonths(i))), taskExecutor)
                         .completeOnTimeout(null, 1000, TimeUnit.MILLISECONDS)));
 
         try {
@@ -77,17 +65,9 @@ public class SummaryService {
         } catch (Exception e) {
         }
 
-        setAnnualCategoriesSummary(annualSummary);
+        annualSummary.setAnnualCategoriesSummary();
 
         return annualSummary;
-    }
-
-    private void setAnnualCategoriesSummary(AnnualSummary annualSummary) {
-        annualSummary.getMonthlySummaries().stream()
-                .map(MonthlySummary::getCategorySummaries)
-                .flatMap(List::stream)
-                .collect(Collectors.groupingBy(CategorySummary::getCategory))
-                .forEach((key, value) -> annualSummary.add(new CategorySummary(key, value.stream().mapToDouble(CategorySummary::getTotal).sum())));
     }
 }
 

@@ -1,4 +1,4 @@
-package br.com.devcanoa.finance.model;
+package br.com.devcanoa.finance.domain;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,9 +47,5 @@ public enum Category {
 
     public String getValue() {
         return this.value;
-    }
-
-    public boolean equals(int id) {
-        return this.id == id;
     }
 }

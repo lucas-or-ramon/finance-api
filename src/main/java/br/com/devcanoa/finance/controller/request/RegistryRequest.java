@@ -1,6 +1,6 @@
 package br.com.devcanoa.finance.controller.request;
 
-import br.com.devcanoa.finance.model.Category;
+import br.com.devcanoa.finance.domain.Category;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;

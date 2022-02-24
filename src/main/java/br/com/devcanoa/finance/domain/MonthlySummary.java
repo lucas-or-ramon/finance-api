@@ -1,4 +1,4 @@
-package br.com.devcanoa.finance.model;
+package br.com.devcanoa.finance.domain;
 
 import java.time.LocalDate;
 import java.util.List;
