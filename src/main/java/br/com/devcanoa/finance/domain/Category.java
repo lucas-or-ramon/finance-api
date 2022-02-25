@@ -1,5 +1,7 @@
 package br.com.devcanoa.finance.domain;
 
+import br.com.devcanoa.finance.domain.exception.CategoryNotFoundException;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -27,14 +29,14 @@ public enum Category {
         return Arrays.stream(Category.values())
                 .filter(category -> category.getId() == id)
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new CategoryNotFoundException("Category Not Found: " + id));
     }
 
     public static Category getCategoryByValue(String value) {
         return Arrays.stream(Category.values())
                 .filter(category -> Objects.equals(category.getValue(), value))
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new CategoryNotFoundException("Category Not Found: " + value));
     }
 
     public static List<String> getAllCategories() {
