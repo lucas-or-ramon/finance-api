@@ -8,14 +8,14 @@ public class MonthlyResume {
     private final Double balance;
     private final Double totalRevenue;
     private final Double totalExpenditure;
-    private final List<CategoryResume> categoryResume;
+    private final List<CategoryResume> categoryResumeList;
 
-    public MonthlyResume(LocalDate date, Double totalRevenue, Double totalExpenditure, Double balance, List<CategoryResume> categoryResume) {
+    public MonthlyResume(LocalDate date, Double totalRevenue, Double totalExpenditure, Double balance, List<CategoryResume> categoryResumeList) {
         this.date = date;
         this.balance = balance;
         this.totalRevenue = totalRevenue;
-        this.categoryResume = categoryResume;
         this.totalExpenditure = totalExpenditure;
+        this.categoryResumeList = categoryResumeList;
     }
 
     public LocalDate getDate() {
@@ -34,7 +34,11 @@ public class MonthlyResume {
         return totalExpenditure;
     }
 
-    public List<CategoryResume> getCategoryResume() {
-        return List.copyOf(categoryResume);
+    public List<CategoryResume> getCategoryResumeList() {
+        return List.copyOf(categoryResumeList);
+    }
+
+    public void clearCategoryResumeList() {
+        this.categoryResumeList.clear();
     }
 }

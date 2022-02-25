@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/resumo")
+@RequestMapping(value = "/resume")
 public class ResumeController {
 
     private final ResumeService resumeService;
@@ -22,15 +22,15 @@ public class ResumeController {
         this.resumeService = resumeService;
     }
 
-    @GetMapping(value = "/mensal/{ano}/{mes}")
-    public ResponseEntity<MonthlyResume> getMonthlyResume(@PathVariable(name = "ano") final int year,
-                                                          @PathVariable(name = "mes") final int month) {
+    @GetMapping(value = "/monthly/{year}/{month}")
+    public ResponseEntity<MonthlyResume> getMonthlyResume(@PathVariable final int year,
+                                                          @PathVariable final int month) {
         return ResponseEntity.ok(resumeService.getMonthlyResume(FinanceDate.getDateFrom(year, month)));
     }
 
-    @GetMapping(value = "/anual/{ano}/{mes}")
-    public ResponseEntity<AnnualResume> getAnnualResume(@PathVariable(name = "ano") final int year,
-                                                        @PathVariable(name = "mes") final int month) {
+    @GetMapping(value = "/annual/{year}/{month}")
+    public ResponseEntity<AnnualResume> getAnnualResume(@PathVariable final int year,
+                                                        @PathVariable final int month) {
         return ResponseEntity.ok(resumeService.getAnnualResume(FinanceDate.getDateFrom(year, month)));
     }
 }

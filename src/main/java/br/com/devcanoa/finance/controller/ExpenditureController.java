@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/despesas")
+@RequestMapping(value = "/expenditure")
 public class ExpenditureController {
 
     public final ExpenditureService expenditureService;
@@ -25,7 +25,7 @@ public class ExpenditureController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RegistryResponse>> listExpenditure(@RequestParam(required = false, name = "descricao") final String description) {
+    public ResponseEntity<List<RegistryResponse>> listExpenditure(@RequestParam(required = false, name = "description") final String description) {
         return new ResponseEntity<>(RegistryResponse.fromExpenditureList(expenditureService.getAllExpenditures(description)), HttpStatus.OK);
     }
 
@@ -34,9 +34,9 @@ public class ExpenditureController {
         return new ResponseEntity<>(RegistryResponse.fromExpenditure(expenditureService.getExpenditureById(id)), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{ano}/{mes}")
-    public ResponseEntity<List<RegistryResponse>> getExpendituresByYearAndMonth(@PathVariable(name = "ano") final int year,
-                                                                                @PathVariable(name = "mes") final int month) {
+    @GetMapping(value = "/{year}/{month}")
+    public ResponseEntity<List<RegistryResponse>> getExpendituresByYearAndMonth(@PathVariable final int year,
+                                                                                @PathVariable final int month) {
         return ResponseEntity.ok(RegistryResponse.fromExpenditureList(
                 expenditureService.getExpendituresByYearAndMonth(FinanceDate.getDateFrom(year, month))));
     }
