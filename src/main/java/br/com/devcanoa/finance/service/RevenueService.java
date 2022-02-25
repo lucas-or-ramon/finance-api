@@ -22,42 +22,27 @@ public class RevenueService {
         this.revenueRepository = revenueRepository;
     }
 
-    public Revenue insertRevenue(Revenue revenue) {
-        if (revenueRepository.revenueExist(revenue)) {
-            throw new HttpClientErrorException(HttpStatus.UNPROCESSABLE_ENTITY);
-        }
-
-        return revenueRepository.insertRevenue(revenue)
-                .orElseThrow(() -> new HttpServerErrorException(HttpStatus.UNPROCESSABLE_ENTITY));
-    }
-
     public List<Revenue> getAllRevenues(String description) {
-        return revenueRepository.getAllRevenues(description)
-                .orElseThrow(() -> new HttpServerErrorException(HttpStatus.UNPROCESSABLE_ENTITY));
+        return revenueRepository.getAllRevenues(description);
     }
 
     public Revenue getRevenueById(ObjectId id) {
-        return revenueRepository.getRevenueById(id)
-                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.UNPROCESSABLE_ENTITY));
-    }
-
-    public Revenue updateRevenue(Revenue newRevenue) {
-        Revenue oldRevenue = getRevenueById(newRevenue.getId());
-
-        if (oldRevenue.equals(newRevenue)) {
-            return revenueRepository.updateRevenue(newRevenue).orElseThrow(() -> new HttpClientErrorException(HttpStatus.UNPROCESSABLE_ENTITY));
-        } else {
-            return insertRevenue(newRevenue);
-        }
-    }
-
-    public Revenue deleteRevenue(ObjectId id) {
-        return revenueRepository.deleteRevenue(id)
-                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.UNPROCESSABLE_ENTITY));
+        return revenueRepository.getRevenueById(id);
     }
 
     public List<Revenue> getRevenuesByYearAndMonth(LocalDate date) {
-        return revenueRepository.getRevenuesByYearAndMonth(date)
-                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.UNPROCESSABLE_ENTITY));
+        return revenueRepository.getRevenuesByYearAndMonth(date);
+    }
+
+    public Revenue insertRevenue(Revenue revenue) {
+        return revenueRepository.insertRevenue(revenue);
+    }
+
+    public Revenue updateRevenue(Revenue newRevenue) {
+        return revenueRepository.updateRevenue(newRevenue);
+    }
+
+    public Revenue deleteRevenue(ObjectId id) {
+        return revenueRepository.deleteRevenue(id);
     }
 }

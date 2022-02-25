@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/receitas")
+@RequestMapping(value = "/revenue")
 public class RevenueController {
 
     public final RevenueService revenueService;
@@ -24,52 +24,37 @@ public class RevenueController {
         this.revenueService = revenueService;
     }
 
-    @PostMapping
-    public ResponseEntity<RegistryResponse> insertRevenues(@RequestBody final RegistryRequest registryRequest) {
-            return new ResponseEntity<>(
-                    RegistryResponse.fromRevenue(revenueService.insertRevenue(Revenue.from(registryRequest))),
-                    HttpStatus.CREATED);
+    @GetMapping
+    public ResponseEntity<List<RegistryResponse>> listRevenues(@RequestParam(required = false, name = "description") final String description) {
+        return new ResponseEntity<>(RegistryResponse.fromRevenueList(revenueService.getAllRevenues(description)), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<RegistryResponse> getRevenueById(@PathVariable final ObjectId id) {
-        return new ResponseEntity<>(
-                RegistryResponse.fromRevenue(revenueService.getRevenueById(id)),
-                HttpStatus.OK
-        );
+        return new ResponseEntity<>(RegistryResponse.fromRevenue(revenueService.getRevenueById(id)), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<List<RegistryResponse>> listRevenues(@RequestParam(required = false, name = "descricao") final String description) {
-        return new ResponseEntity<>(
-                RegistryResponse.fromRevenueList(revenueService.getAllRevenues(description)),
-                HttpStatus.OK
-        );
+    @GetMapping(value = "/{year}/{month}")
+    public ResponseEntity<List<RegistryResponse>> getRevenuesByYearAndMonth(@PathVariable final int year,
+                                                                            @PathVariable final int month) {
+        return ResponseEntity.ok(RegistryResponse.fromRevenueList(
+                revenueService.getRevenuesByYearAndMonth(FinanceDate.getDateFrom(year, month))));
+    }
+
+    @PostMapping
+    public ResponseEntity<RegistryResponse> insertRevenues(@RequestBody final RegistryRequest registryRequest) {
+        Revenue revenue = Revenue.from(registryRequest);
+        return new ResponseEntity<>(RegistryResponse.fromRevenue(revenueService.insertRevenue(revenue)), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<RegistryResponse> updateRevenue(@PathVariable final ObjectId id, @RequestBody final RegistryRequest registryRequest) {
         Revenue revenue = Revenue.withId(id, registryRequest);
-
-        return new ResponseEntity<>(
-                RegistryResponse.fromRevenue(revenueService.updateRevenue(revenue)),
-                HttpStatus.OK
-        );
+        return new ResponseEntity<>(RegistryResponse.fromRevenue(revenueService.updateRevenue(revenue)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<RegistryResponse> deleteRevenue(@PathVariable final ObjectId id) {
-        return new ResponseEntity<>(
-                RegistryResponse.fromRevenue(revenueService.deleteRevenue(id)),
-                HttpStatus.NO_CONTENT
-        );
-    }
-
-    @GetMapping(value = "/{ano}/{mes}")
-    public ResponseEntity<List<RegistryResponse>> getRevenuesByYearAndMonth(@PathVariable(name = "ano") final int year,
-                                                                            @PathVariable(name = "mes") final int month) {
-        return ResponseEntity.ok(
-                RegistryResponse.fromRevenueList(
-                        revenueService.getRevenuesByYearAndMonth(FinanceDate.getDateFrom(year, month))));
+        return new ResponseEntity<>(RegistryResponse.fromRevenue(revenueService.deleteRevenue(id)), HttpStatus.NO_CONTENT);
     }
 }
