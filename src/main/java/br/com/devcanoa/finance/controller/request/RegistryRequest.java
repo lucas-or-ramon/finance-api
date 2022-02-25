@@ -44,4 +44,9 @@ public class RegistryRequest {
 
         return Category.getCategoryByValue(category);
     }
+
+    @Override
+    public String toString() {
+        return "RegistryRequest: {" + "date: " + date + ", value: " + value + ", description: " + description + ", category: " + category + "}";
+    }
 }

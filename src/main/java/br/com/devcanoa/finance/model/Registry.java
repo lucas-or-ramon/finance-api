@@ -41,6 +41,11 @@ public class Registry {
         return Objects.hash(date, description);
     }
 
+    @Override
+    public String toString() {
+        return "id: " + id + ", date: " + date + ", value: " + value + ", description: " + description;
+    }
+
     public ObjectId getId() {
         return id;
     }

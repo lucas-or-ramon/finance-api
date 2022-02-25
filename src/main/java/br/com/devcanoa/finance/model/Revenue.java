@@ -26,4 +26,9 @@ public class Revenue extends Registry {
     public static Revenue withId(final ObjectId id, final RegistryRequest registryRequest) {
         return new Revenue(id, registryRequest.getDate(), registryRequest.getValue(), registryRequest.getDescription());
     }
+
+    @Override
+    public String toString() {
+        return "Revenue: {" + super.toString() + "}";
+    }
 }

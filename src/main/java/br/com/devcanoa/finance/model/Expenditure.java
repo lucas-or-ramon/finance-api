@@ -34,4 +34,9 @@ public class Expenditure extends Registry {
     public Category getCategory() {
         return category;
     }
+
+    @Override
+    public String toString() {
+        return "Expenditure: {" + super.toString() + ", category: " + category + "}";
+    }
 }
