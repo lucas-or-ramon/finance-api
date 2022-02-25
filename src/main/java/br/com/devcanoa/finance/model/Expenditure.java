@@ -23,7 +23,7 @@ public class Expenditure extends Registry {
         this.category = registryRequest.getCategory();
     }
 
-    public static Expenditure from (final RegistryRequest registryRequest) {
+    public static Expenditure from(final RegistryRequest registryRequest) {
         return new Expenditure(registryRequest);
     }
 
