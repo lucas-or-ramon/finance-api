@@ -29,8 +29,8 @@ public class RegistryResponse {
         this.id = expenditure.getId().toString();
         this.date = expenditure.getDate();
         this.value = expenditure.getValue();
-        this.description = expenditure.getDescription();
         this.category = expenditure.getCategory().getValue();
+        this.description = expenditure.getDescription();
     }
 
     public static RegistryResponse fromRevenue(Revenue revenue) {

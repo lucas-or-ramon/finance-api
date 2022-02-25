@@ -3,19 +3,19 @@ package br.com.devcanoa.finance.domain;
 import java.time.LocalDate;
 import java.util.List;
 
-public class MonthlySummary {
+public class MonthlyResume {
     private final LocalDate date;
     private final Double balance;
     private final Double totalRevenue;
     private final Double totalExpenditure;
-    private final List<CategorySummary> categorySummaries;
+    private final List<CategoryResume> categoryResume;
 
-    public MonthlySummary(LocalDate date, Double totalRevenue, Double totalExpenditure, Double balance, List<CategorySummary> categorySummaries) {
+    public MonthlyResume(LocalDate date, Double totalRevenue, Double totalExpenditure, Double balance, List<CategoryResume> categoryResume) {
         this.date = date;
         this.balance = balance;
         this.totalRevenue = totalRevenue;
+        this.categoryResume = categoryResume;
         this.totalExpenditure = totalExpenditure;
-        this.categorySummaries = categorySummaries;
     }
 
     public LocalDate getDate() {
@@ -34,7 +34,7 @@ public class MonthlySummary {
         return totalExpenditure;
     }
 
-    public List<CategorySummary> getCategorySummaries() {
-        return List.copyOf(categorySummaries);
+    public List<CategoryResume> getCategoryResume() {
+        return List.copyOf(categoryResume);
     }
 }

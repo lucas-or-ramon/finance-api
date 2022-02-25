@@ -1,19 +1,17 @@
 package br.com.devcanoa.finance.domain;
 
+import java.time.LocalDate;
+
 public class FinanceDate {
-    private final int year;
-    private final int month;
-
-    public FinanceDate(int year, int month) {
-        this.year = year;
-        this.month = month;
+    public static LocalDate getStartOfMonth(LocalDate date) {
+        return LocalDate.of(date.getYear(), date.getMonth(), 1);
     }
 
-    public int getYear() {
-        return year;
+    public static LocalDate getEndOfMonth(LocalDate date) {
+        return LocalDate.of(date.getYear(), date.getMonth(), date.lengthOfMonth());
     }
 
-    public int getMonth() {
-        return month;
+    public static LocalDate getDateFrom(int year, int month) {
+        return LocalDate.of(year, month, 1);
     }
 }

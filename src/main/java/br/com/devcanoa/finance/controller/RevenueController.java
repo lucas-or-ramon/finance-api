@@ -2,6 +2,7 @@ package br.com.devcanoa.finance.controller;
 
 import br.com.devcanoa.finance.controller.request.RegistryRequest;
 import br.com.devcanoa.finance.controller.response.RegistryResponse;
+import br.com.devcanoa.finance.domain.FinanceDate;
 import br.com.devcanoa.finance.model.Revenue;
 import br.com.devcanoa.finance.service.RevenueService;
 import org.bson.types.ObjectId;
@@ -10,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -68,9 +68,8 @@ public class RevenueController {
     @GetMapping(value = "/{ano}/{mes}")
     public ResponseEntity<List<RegistryResponse>> getRevenuesByYearAndMonth(@PathVariable(name = "ano") final int year,
                                                                             @PathVariable(name = "mes") final int month) {
-        LocalDate date = LocalDate.of(year, month, 1);
         return ResponseEntity.ok(
-                RegistryResponse.fromRevenueList(revenueService.getRevenuesByYearAndMonth(date))
-        );
+                RegistryResponse.fromRevenueList(
+                        revenueService.getRevenuesByYearAndMonth(FinanceDate.getDateFrom(year, month))));
     }
 }

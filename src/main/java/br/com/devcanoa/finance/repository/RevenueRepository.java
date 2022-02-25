@@ -1,5 +1,6 @@
 package br.com.devcanoa.finance.repository;
 
+import br.com.devcanoa.finance.domain.FinanceDate;
 import br.com.devcanoa.finance.model.Revenue;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,8 @@ public class RevenueRepository {
 
         Query query = Query.query(new Criteria().andOperator(
                 where("description").is(revenue.getDescription()),
-                where("date").gte(LocalDate.of(date.getYear(), date.getMonth(), 1)),
-                where("date").lte(LocalDate.of(date.getYear(), date.getMonth(), date.lengthOfMonth()))));
+                where("date").gte(FinanceDate.getStartOfMonth(date)),
+                where("date").lte(FinanceDate.getEndOfMonth(date))));
 
         try {
             return mongoTemplate.exists(query, Revenue.class);
@@ -87,8 +88,8 @@ public class RevenueRepository {
 
     public Optional<List<Revenue>> getRevenuesByYearAndMonth(LocalDate date) {
         Query query = Query.query(new Criteria().andOperator(
-                where("date").gte(LocalDate.of(date.getYear(), date.getMonth(), 1)),
-                where("date").lte(LocalDate.of(date.getYear(), date.getMonth(), date.lengthOfMonth()))));
+                where("date").gte(FinanceDate.getStartOfMonth(date)),
+                where("date").lte(FinanceDate.getEndOfMonth(date))));
         try {
             return Optional.of(mongoTemplate.find(query, Revenue.class));
         } catch (Exception e) {

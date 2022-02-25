@@ -1,10 +1,10 @@
 package br.com.devcanoa.finance.domain;
 
-public class CategorySummary {
+public class CategoryResume {
     private final String category;
     private final Double total;
 
-    public CategorySummary(String category, Double total) {
+    public CategoryResume(String category, Double total) {
         this.category = category;
         this.total = total;
     }
