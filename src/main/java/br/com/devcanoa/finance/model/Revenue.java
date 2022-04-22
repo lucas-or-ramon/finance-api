@@ -19,7 +19,7 @@ public class Revenue extends Registry {
         super(registryRequest);
     }
 
-    public static Revenue from(final RegistryRequest registryRequest) {
+    public static Revenue from(RegistryRequest registryRequest) {
         return new Revenue(registryRequest);
     }
 

@@ -2,6 +2,7 @@ package br.com.devcanoa.finance.controller;
 
 import br.com.devcanoa.finance.controller.request.RegistryRequest;
 import br.com.devcanoa.finance.controller.response.RegistryResponse;
+import br.com.devcanoa.finance.controller.response.RegistryResume;
 import br.com.devcanoa.finance.domain.FinanceDate;
 import br.com.devcanoa.finance.model.Expenditure;
 import br.com.devcanoa.finance.service.ExpenditureService;
@@ -46,6 +47,14 @@ public class ExpenditureController {
         logger.info("Expenditure: {year: {}, month: {}}", year, month);
         return ResponseEntity.ok(RegistryResponse.fromExpenditureList(
                 expenditureService.getExpendituresByYearAndMonth(FinanceDate.getDateFrom(year, month))));
+    }
+
+    @GetMapping(value = "/resume/{year}/{month}")
+    public ResponseEntity<RegistryResume> getExpenditureResume(@PathVariable final int year,
+                                                               @PathVariable final int month) {
+        logger.info("Revenue: {year: {}, month: {}}", year, month);
+        return ResponseEntity.ok(new RegistryResume(RegistryResponse.fromExpenditureList(
+                expenditureService.getExpendituresByYearAndMonth(FinanceDate.getDateFrom(year, month)))));
     }
 
     @PostMapping
