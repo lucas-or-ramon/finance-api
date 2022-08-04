@@ -16,7 +16,6 @@ public class RegistryResponse {
     private final LocalDate date;
     private final Double value;
     private final String description;
-    private String category;
 
     private RegistryResponse(Revenue revenue) {
         this.id = revenue.getId().toString();
@@ -29,7 +28,6 @@ public class RegistryResponse {
         this.id = expenditure.getId().toString();
         this.date = expenditure.getDate();
         this.value = expenditure.getValue();
-        this.category = expenditure.getCategory().getValue();
         this.description = expenditure.getDescription();
     }
 
@@ -63,9 +61,5 @@ public class RegistryResponse {
 
     public String getDescription() {
         return description;
-    }
-
-    public String getCategory() {
-        return category;
     }
 }

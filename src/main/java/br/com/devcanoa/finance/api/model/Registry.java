@@ -10,8 +10,8 @@ import java.util.Objects;
 public class Registry {
     @Id
     private final ObjectId id;
-    private final LocalDate date;
     private final Double value;
+    private final LocalDate date;
     private final String description;
 
     protected Registry(ObjectId id, LocalDate date, Double value, String description) {

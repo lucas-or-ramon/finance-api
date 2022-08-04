@@ -1,44 +1,53 @@
 package br.com.devcanoa.finance.api.domain;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class MonthlyResume {
     private final LocalDate date;
-    private final Double balance;
-    private final Double totalRevenue;
-    private final Double totalExpenditure;
-    private final List<CategoryResume> categoryResumeList;
+    private double balance;
+    private double totalRevenue;
+    private double totalExpenditure;
 
-    public MonthlyResume(LocalDate date, Double totalRevenue, Double totalExpenditure, Double balance, List<CategoryResume> categoryResumeList) {
+    private MonthlyResume(LocalDate date) {
         this.date = date;
+    }
+
+    public static MonthlyResume builder(LocalDate localDate) {
+        return new MonthlyResume(localDate);
+    }
+
+    public MonthlyResume addBalance(double balance) {
         this.balance = balance;
+        return this;
+    }
+
+    public MonthlyResume addTotalRevenue(double totalRevenue) {
         this.totalRevenue = totalRevenue;
+        return this;
+    }
+
+    public MonthlyResume addTotalExpenditure(double totalExpenditure) {
         this.totalExpenditure = totalExpenditure;
-        this.categoryResumeList = categoryResumeList;
+        return this;
+    }
+
+    public MonthlyResume build() {
+        return this;
     }
 
     public LocalDate getDate() {
         return date;
     }
 
-    public Double getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public Double getTotalRevenue() {
+    public double getTotalRevenue() {
         return totalRevenue;
     }
 
-    public Double getTotalExpenditure() {
+    public double getTotalExpenditure() {
         return totalExpenditure;
-    }
-
-    public List<CategoryResume> getCategoryResumeList() {
-        return List.copyOf(categoryResumeList);
-    }
-
-    public void clearCategoryResumeList() {
-        this.categoryResumeList.clear();
     }
 }

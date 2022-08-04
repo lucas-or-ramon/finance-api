@@ -12,7 +12,7 @@ public class FinanceExceptionHandler {
 
     Logger logger = LoggerFactory.getLogger(FinanceExceptionHandler.class);
 
-    @ExceptionHandler(value = {RegistryNotFoundException.class, CategoryNotFoundException.class})
+    @ExceptionHandler(value = {RegistryNotFoundException.class})
     public ResponseEntity<ErrorResponse> handleException(RegistryNotFoundException exception) {
         logger.error(exception.getMessage());
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), exception.getMessage(), System.currentTimeMillis());

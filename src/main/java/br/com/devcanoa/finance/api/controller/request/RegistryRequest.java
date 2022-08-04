@@ -1,13 +1,10 @@
 package br.com.devcanoa.finance.api.controller.request;
 
-import br.com.devcanoa.finance.api.domain.Category;
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.Objects;
 
 public class RegistryRequest {
 
@@ -37,12 +34,6 @@ public class RegistryRequest {
 
     public LocalDate getDate() {
         return date;
-    }
-
-    public Category getCategory() {
-        if (Objects.isNull(category) || category.isBlank()) return Category.OTHER;
-
-        return Category.getCategoryByValue(category);
     }
 
     @Override

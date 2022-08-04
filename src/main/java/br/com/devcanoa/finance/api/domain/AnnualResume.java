@@ -1,34 +1,49 @@
 package br.com.devcanoa.finance.api.domain;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class AnnualResume {
-    private final List<MonthlyResume> monthlyResume = new ArrayList<>();
-    private final List<CategoryResume> categoryResumeList = new ArrayList<>();
+public final class AnnualResume {
+    private double balance;
+    private double totalRevenue;
+    private double totalExpenditure;
+    private final List<MonthlyResume> monthlyResumeList;
 
-    public void add(MonthlyResume monthlyResume) {
-        this.monthlyResume.add(monthlyResume);
+    private AnnualResume() {
+        this.monthlyResumeList = new ArrayList<>();
     }
 
-    private void add(CategoryResume categoryResume) {
-        this.categoryResumeList.add(categoryResume);
+    public static AnnualResume builder() {
+        return new AnnualResume();
     }
 
-    public void setAnnualCategoriesResume() {
-        this.monthlyResume.stream()
-                .flatMap(monthlyResume -> monthlyResume.getCategoryResumeList().stream())
-                .collect(Collectors.groupingBy(CategoryResume::getCategory))
-                .forEach((key, value) -> add(new CategoryResume(key, value.stream().mapToDouble(CategoryResume::getTotal).sum())));
-        this.monthlyResume.forEach(MonthlyResume::clearCategoryResumeList);
+    public AnnualResume add(MonthlyResume monthlyResume) {
+        this.monthlyResumeList.add(monthlyResume);
+        return this;
     }
 
-    public List<MonthlyResume> getMonthlyResume() {
-        return monthlyResume;
+    public AnnualResume build() {
+        this.totalRevenue = monthlyResumeList.stream().mapToDouble(MonthlyResume::getTotalRevenue).sum();
+        this.totalExpenditure = monthlyResumeList.stream().mapToDouble(MonthlyResume::getTotalExpenditure).sum();
+        this.balance = totalRevenue - totalExpenditure;
+        return this;
     }
 
-    public List<CategoryResume> getCategoryResumeList() {
-        return categoryResumeList;
+    public double getBalance() {
+        return balance;
+    }
+
+    public double getTotalRevenue() {
+        return totalRevenue;
+    }
+
+    public double getTotalExpenditure() {
+        return totalExpenditure;
+    }
+
+    public List<MonthlyResume> getMonthlyResumeList() {
+        monthlyResumeList.sort(Comparator.comparing(MonthlyResume::getDate));
+        return monthlyResumeList;
     }
 }
