@@ -1,8 +1,8 @@
 package br.com.devcanoa.finance.api.exception;
 
-public class RegistryNotFoundException extends RuntimeException {
+public class RegistryNotFoundException extends FinanceException {
 
-    public RegistryNotFoundException(String message) {
+    public RegistryNotFoundException(final String message) {
         super(message);
     }
 }

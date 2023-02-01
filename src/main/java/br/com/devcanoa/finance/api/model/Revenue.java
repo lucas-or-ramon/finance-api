@@ -1,8 +1,6 @@
 package br.com.devcanoa.finance.api.model;
 
-import br.com.devcanoa.finance.api.controller.request.RegistryRequest;
 import org.bson.types.ObjectId;
-import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
@@ -10,21 +8,8 @@ import java.time.LocalDate;
 @Document(collection = "revenue")
 public class Revenue extends Registry {
 
-    @PersistenceConstructor
-    private Revenue(ObjectId id, LocalDate date, Double value, String description) {
+    public Revenue(final ObjectId id, final LocalDate date, final Double value, final String description) {
         super(id, date, value, description);
-    }
-
-    private Revenue(final RegistryRequest registryRequest) {
-        super(registryRequest);
-    }
-
-    public static Revenue from(RegistryRequest registryRequest) {
-        return new Revenue(registryRequest);
-    }
-
-    public static Revenue withId(final ObjectId id, final RegistryRequest registryRequest) {
-        return new Revenue(id, registryRequest.getDate(), registryRequest.getValue(), registryRequest.getDescription());
     }
 
     @Override

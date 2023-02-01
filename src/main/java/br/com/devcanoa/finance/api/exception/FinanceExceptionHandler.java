@@ -12,24 +12,29 @@ public class FinanceExceptionHandler {
 
     Logger logger = LoggerFactory.getLogger(FinanceExceptionHandler.class);
 
-    @ExceptionHandler(value = {RegistryNotFoundException.class})
-    public ResponseEntity<ErrorResponse> handleException(RegistryNotFoundException exception) {
-        logger.error(exception.getMessage());
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), exception.getMessage(), System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    @ExceptionHandler(value = RegistryNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleException(final RegistryNotFoundException exception) {
+        return getErrorResponseEntity(exception, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = RegistryAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleException(RegistryAlreadyExistsException exception) {
-        logger.error(exception.getMessage());
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exception.getMessage(), System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ErrorResponse> handleException(final RegistryAlreadyExistsException exception) {
+        return getErrorResponseEntity(exception, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = FinanceException.class)
+    public ResponseEntity<ErrorResponse> handleException(final FinanceException exception) {
+        return getErrorResponseEntity(exception, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception exception) {
+    public ResponseEntity<ErrorResponse> handleException(final Exception exception) {
+        return getErrorResponseEntity(exception, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    private ResponseEntity<ErrorResponse> getErrorResponseEntity(final Exception exception, final HttpStatus httpStatus) {
         logger.error(exception.getMessage());
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), exception.getMessage(), System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        final var errorResponse = new ErrorResponse(httpStatus.value(), exception.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, httpStatus);
     }
 }

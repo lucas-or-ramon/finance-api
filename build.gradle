@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.6.2'
+    id 'org.springframework.boot' version '3.0.1'
 }
 
 group 'br.com.devcanoa.finance'
@@ -11,18 +11,18 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:2.6.5'
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.5'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:3.0.2'
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.0.2'
     implementation 'javax.validation:validation-api:2.0.1.Final'
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.5'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.0.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
 }
 
 jar {
     manifest {
-        attributes (
+        attributes(
                 'Main-Class': 'br.com.devcanoa.finance.FinanceApplication'
         )
     }
