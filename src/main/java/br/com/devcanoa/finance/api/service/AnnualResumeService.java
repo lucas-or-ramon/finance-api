@@ -26,13 +26,13 @@ public class AnnualResumeService {
     }
 
     public AnnualResumeResponse getAnnualResume(final LocalDate date) {
-        final var completableFutures = IntStream.rangeClosed(0, 11).mapToObj(i -> getCompletableFutures(date, i)).toList();
+        final var completableFutures = IntStream.rangeClosed(0, 11)
+                .mapToObj(i -> getCompletableFutures(date.minusMonths(i))).toList();
         return run(completableFutures);
     }
 
-    private CompletableFuture<MonthlyResumeResponse> getCompletableFutures(final LocalDate date, final int quantityOfMonths) {
-        return CompletableFuture.supplyAsync(() ->
-                resumeService.getMonthlyResume(date.minusMonths(quantityOfMonths)), taskExecutor);
+    private CompletableFuture<MonthlyResumeResponse> getCompletableFutures(final LocalDate date) {
+        return CompletableFuture.supplyAsync(() -> resumeService.getMonthlyResume(date), taskExecutor);
     }
 
     private AnnualResumeResponse run(final List<CompletableFuture<MonthlyResumeResponse>> completableFutures) {

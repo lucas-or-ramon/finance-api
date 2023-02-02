@@ -37,18 +37,3 @@ public class MonthlyResumeService {
         return revenues.stream().mapToDouble(Revenue::getValue).sum();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
