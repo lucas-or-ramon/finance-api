@@ -1,7 +1,7 @@
-FROM openjdk:11-jdk-slim-buster
+FROM openjdk:17-alpine
 
-COPY build/libs/finance-back-1.0.jar finance-back-1.0.jar
+COPY finance-api-1.0.jar finance-api-1.0.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","/finance-back-1.0.jar"]
+ENTRYPOINT ["java","-jar","/finance-api-1.0.jar"]

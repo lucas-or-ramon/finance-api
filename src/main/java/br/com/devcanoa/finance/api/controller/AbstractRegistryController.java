@@ -4,8 +4,6 @@ import br.com.devcanoa.finance.api.controller.request.RegistryRequest;
 import br.com.devcanoa.finance.api.controller.request.RegistryRequestMapper;
 import br.com.devcanoa.finance.api.controller.response.RegistryResponse;
 import br.com.devcanoa.finance.api.controller.response.RegistryResponseMapper;
-import br.com.devcanoa.finance.api.controller.response.ResumeResponse;
-import br.com.devcanoa.finance.api.controller.response.ResumeResponseMapper;
 import br.com.devcanoa.finance.api.domain.FinanceDate;
 import br.com.devcanoa.finance.api.exception.FinanceException;
 import br.com.devcanoa.finance.api.exception.RegistryNotFoundException;
@@ -18,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 public class AbstractRegistryController<T extends Registry> {
 
@@ -83,12 +80,10 @@ public class AbstractRegistryController<T extends Registry> {
     }
 
     @GetMapping(value = "/resume/{year}/{month}")
-    public ResponseEntity<ResumeResponse> getRevenuesResume(@PathVariable final int year,
-                                                            @PathVariable final int month) {
-        return ResponseEntity.ok(
-                Stream.of(mongoRepository.getByDate(FinanceDate.getDateFrom(year, month)))
-                        .map(new ResumeResponseMapper<>(responseMapper))
-                        .toList()
-                        .get(0));
+    public ResponseEntity<List<RegistryResponse>> getRevenuesResume(@PathVariable final int year,
+                                                                    @PathVariable final int month) {
+        return ResponseEntity.ok(mongoRepository.getByDate(FinanceDate.getDateFrom(year, month)).stream()
+                .map(responseMapper)
+                .toList());
     }
 }
