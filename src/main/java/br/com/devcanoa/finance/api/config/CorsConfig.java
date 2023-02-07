@@ -13,17 +13,17 @@ import java.util.List;
 @Configuration
 public class CorsConfig {
 
-    private final String frontEndEndpoint;
+    private final List<String> frontEndpoints;
 
-    public CorsConfig(@Value("${finance.app.url}") final String frontEndEndpoint) {
-        this.frontEndEndpoint = frontEndEndpoint;
+    public CorsConfig(@Value("#{${finance.app.urls}}") final List<String> frontEndpoints) {
+        this.frontEndpoints = frontEndpoints;
     }
 
     @Bean
     public CorsFilter corsFilter() {
         final CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.setAllowedOrigins(List.of(frontEndEndpoint));
+        corsConfiguration.setAllowedOrigins(frontEndpoints);
         corsConfiguration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
                 "Accept", "Authorization", "Origin, Accept", "X-Requested-With",
                 "Access-Control-Request-Method", "Access-Control-Request-Headers"));
