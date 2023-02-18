@@ -1,6 +1,9 @@
 package br.com.devcanoa.finance.api.service;
 
 import br.com.devcanoa.finance.api.controller.response.MonthlyResumeResponse;
+import br.com.devcanoa.finance.api.controller.response.RegistryResponseMapper;
+import br.com.devcanoa.finance.api.controller.response.ResumeResponse;
+import br.com.devcanoa.finance.api.controller.response.ResumeResponseMapper;
 import br.com.devcanoa.finance.api.model.Expenditure;
 import br.com.devcanoa.finance.api.model.Revenue;
 import br.com.devcanoa.finance.api.repository.MongoRepository;
@@ -21,19 +24,17 @@ public class MonthlyResumeService {
     }
 
     public MonthlyResumeResponse getMonthlyResume(final LocalDate date) {
-        final double totalRevenue = getTotalRevenue(date);
-        final double totalExpenditure = getTotalExpenditure(date);
-        final double balance = totalRevenue - totalExpenditure;
-        return new MonthlyResumeResponse(date, balance, totalRevenue, totalExpenditure);
+        final var revenue = getTotalRevenue(date);
+        final var expenditure = getTotalExpenditure(date);
+        final double balance = revenue.total() - expenditure.total();
+        return new MonthlyResumeResponse(date, balance, revenue, expenditure);
     }
 
-    private double getTotalExpenditure(final LocalDate date) {
-        final var expenditures = expenditureRepository.getByDate(date);
-        return expenditures.stream().mapToDouble(Expenditure::getValue).sum();
+    private ResumeResponse getTotalRevenue(final LocalDate date) {
+        return new ResumeResponseMapper<Revenue>(new RegistryResponseMapper<>()).apply(revenueRepository.getByDate(date));
     }
 
-    private double getTotalRevenue(final LocalDate date) {
-        final var revenues = revenueRepository.getByDate(date);
-        return revenues.stream().mapToDouble(Revenue::getValue).sum();
+    private ResumeResponse getTotalExpenditure(final LocalDate date) {
+        return new ResumeResponseMapper<Expenditure>(new RegistryResponseMapper<>()).apply(expenditureRepository.getByDate(date));
     }
 }

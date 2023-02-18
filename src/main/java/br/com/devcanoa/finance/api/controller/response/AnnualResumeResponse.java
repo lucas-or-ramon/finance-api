@@ -11,8 +11,8 @@ public final class AnnualResumeResponse {
 
     public AnnualResumeResponse(final List<MonthlyResumeResponse> monthlyResumes) {
         this.monthlyResumes = monthlyResumes;
-        totalRevenue = monthlyResumes.stream().mapToDouble(MonthlyResumeResponse::totalRevenue).sum();
-        totalExpenditure = monthlyResumes.stream().mapToDouble(MonthlyResumeResponse::totalExpenditure).sum();
+        totalRevenue = monthlyResumes.stream().mapToDouble(MonthlyResumeResponse::getTotalRevenue).sum();
+        totalExpenditure = monthlyResumes.stream().mapToDouble(MonthlyResumeResponse::getTotalExpediture).sum();
         balance = totalRevenue - totalExpenditure;
     }
 
