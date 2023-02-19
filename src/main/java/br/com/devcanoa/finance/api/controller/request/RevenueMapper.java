@@ -11,6 +11,6 @@ public class RevenueMapper implements RegistryRequestMapper<Revenue> {
     @Override
     public Revenue mapper(final Pair<ObjectId, RegistryRequest> requestPair) {
         final var second = requestPair.getSecond();
-        return new Revenue(requestPair.getFirst(), second.date(), second.value(), second.description());
+        return new Revenue(requestPair.getFirst(), second.date(), second.value(), second.description(), second.creditCardId());
     }
 }

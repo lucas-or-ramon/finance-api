@@ -41,9 +41,9 @@ public class AnnualResumeService {
             return new AnnualResumeResponse(monthlyResumes);
         } catch (final InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw new FinanceException("");
+            throw new FinanceException("Thread Interrupted", e);
         } catch (final ExecutionException | TimeoutException e) {
-            throw new FinanceException("");
+            throw new FinanceException("Execution or Timeout Exception", e);
         }
     }
 

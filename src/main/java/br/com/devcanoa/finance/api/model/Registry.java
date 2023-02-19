@@ -12,17 +12,14 @@ public class Registry {
     private final Double value;
     private final LocalDate date;
     private final String description;
+    private final ObjectId creditCardId;
 
-    public Registry(final ObjectId id, final LocalDate date, final Double value, final String description) {
+    public Registry(final ObjectId id, final LocalDate date, final Double value, final String description, final ObjectId creditCardId) {
         this.id = id;
         this.date = date;
         this.value = value;
         this.description = description;
-    }
-
-    @Override
-    public String toString() {
-        return "id: " + id + ", date: " + date + ", value: " + value + ", description: " + description;
+        this.creditCardId = creditCardId;
     }
 
     public ObjectId getId() {
@@ -39,5 +36,9 @@ public class Registry {
 
     public LocalDate getDate() {
         return date;
+    }
+
+    public ObjectId getCreditCardId() {
+        return creditCardId;
     }
 }

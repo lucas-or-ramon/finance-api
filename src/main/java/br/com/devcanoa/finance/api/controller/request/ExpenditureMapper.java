@@ -11,6 +11,6 @@ public class ExpenditureMapper implements RegistryRequestMapper<Expenditure> {
     @Override
     public Expenditure mapper(final Pair<ObjectId, RegistryRequest> requestPair) {
         final var second = requestPair.getSecond();
-        return new Expenditure(requestPair.getFirst(), second.date(), second.value(), second.description());
+        return new Expenditure(requestPair.getFirst(), second.date(), second.value(), second.description(), second.creditCardId());
     }
 }
