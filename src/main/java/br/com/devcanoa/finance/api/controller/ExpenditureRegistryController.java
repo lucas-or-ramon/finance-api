@@ -4,6 +4,7 @@ import br.com.devcanoa.finance.api.controller.request.RegistryRequestMapper;
 import br.com.devcanoa.finance.api.controller.response.RegistryResponseMapper;
 import br.com.devcanoa.finance.api.model.Expenditure;
 import br.com.devcanoa.finance.api.repository.MongoRepository;
+import br.com.devcanoa.finance.api.service.RegistryService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,7 +14,8 @@ public class ExpenditureRegistryController extends AbstractRegistryController<Ex
 
     public ExpenditureRegistryController(final MongoRepository<Expenditure> mongoRepository,
                                          final RegistryResponseMapper<Expenditure> responseMapper,
-                                         final RegistryRequestMapper<Expenditure> requestMapper) {
-        super(mongoRepository, responseMapper, requestMapper);
+                                         final RegistryRequestMapper<Expenditure> requestMapper,
+                                         final RegistryService<Expenditure> registryService) {
+        super(mongoRepository, responseMapper, requestMapper, registryService);
     }
 }

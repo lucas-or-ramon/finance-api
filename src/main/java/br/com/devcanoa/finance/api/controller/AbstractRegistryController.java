@@ -4,11 +4,13 @@ import br.com.devcanoa.finance.api.controller.request.RegistryRequest;
 import br.com.devcanoa.finance.api.controller.request.RegistryRequestMapper;
 import br.com.devcanoa.finance.api.controller.response.RegistryResponse;
 import br.com.devcanoa.finance.api.controller.response.RegistryResponseMapper;
+import br.com.devcanoa.finance.api.controller.response.ResumeResponse;
 import br.com.devcanoa.finance.api.domain.FinanceDate;
 import br.com.devcanoa.finance.api.exception.FinanceException;
 import br.com.devcanoa.finance.api.exception.RegistryNotFoundException;
 import br.com.devcanoa.finance.api.model.Registry;
 import br.com.devcanoa.finance.api.repository.MongoRepository;
+import br.com.devcanoa.finance.api.service.RegistryService;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,13 +27,16 @@ public class AbstractRegistryController<T extends Registry> {
     private final MongoRepository<T> mongoRepository;
     private final RegistryRequestMapper<T> requestMapper;
     private final RegistryResponseMapper<T> responseMapper;
+    private final RegistryService<T> registryService;
 
     public AbstractRegistryController(final MongoRepository<T> mongoRepository,
                                       final RegistryResponseMapper<T> responseMapper,
-                                      final RegistryRequestMapper<T> requestMapper) {
+                                      final RegistryRequestMapper<T> requestMapper,
+                                      final RegistryService<T> registryService) {
         this.mongoRepository = mongoRepository;
         this.requestMapper = requestMapper;
         this.responseMapper = responseMapper;
+        this.registryService = registryService;
     }
 
     @GetMapping(value = "/{id}")
@@ -79,21 +84,9 @@ public class AbstractRegistryController<T extends Registry> {
     }
 
     @GetMapping("/{year}/{month}")
-    public ResponseEntity<List<RegistryResponse>> getByYearAndMonth(@PathVariable final int year,
-                                                                    @PathVariable final int month) {
+    public ResponseEntity<ResumeResponse> getByYearAndMonth(@PathVariable final int year,
+                                                            @PathVariable final int month) {
         logger.info("Get -> year: {}, month: {}", year, month);
-        return ResponseEntity.ok(mongoRepository.getByDate(FinanceDate.getDateFrom(year, month))
-                .stream()
-                .map(responseMapper)
-                .toList());
-    }
-
-    @GetMapping(value = "/resume/{year}/{month}")
-    public ResponseEntity<List<RegistryResponse>> getRevenuesResume(@PathVariable final int year,
-                                                                    @PathVariable final int month) {
-        logger.info("year: {}, month: {}", year, month);
-        return ResponseEntity.ok(mongoRepository.getByDate(FinanceDate.getDateFrom(year, month)).stream()
-                .map(responseMapper)
-                .toList());
+        return ResponseEntity.ok(registryService.getResume(FinanceDate.getDateFrom(year, month)));
     }
 }

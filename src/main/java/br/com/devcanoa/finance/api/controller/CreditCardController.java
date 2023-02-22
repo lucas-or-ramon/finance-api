@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ public class CreditCardController {
     public ResponseEntity<List<CreditCardResponse>> listAll() {
         logger.info("Get");
         return ResponseEntity.ok(creditCardService.findAll().stream()
-                .map(c -> responseMapper.apply(Map.entry(0.0, c)))
+                .map(c -> responseMapper.apply(Map.entry(c, Collections.emptyList())))
                 .toList());
     }
 
@@ -40,21 +41,21 @@ public class CreditCardController {
     public ResponseEntity<CreditCardResponse> getById(@PathVariable final ObjectId id) {
         logger.info("Get -> id: {}", id);
         return ResponseEntity.ok(creditCardService.findById(id)
-                .map(c -> responseMapper.apply(Map.entry(0.0, c)))
+                .map(c -> responseMapper.apply(Map.entry(c, Collections.emptyList())))
                 .orElseThrow(() -> new RegistryNotFoundException("Registry not found with id: " + id)));
     }
 
     @PostMapping
     public ResponseEntity<CreditCardResponse> insert(@RequestBody final CreditCard creditCard) {
         logger.info("Post -> request: {}", creditCard);
-        return new ResponseEntity<>(responseMapper.apply(Map.entry(0.0, creditCardService.save(creditCard))), HttpStatus.CREATED);
+        return new ResponseEntity<>(responseMapper.apply(Map.entry(creditCardService.save(creditCard), Collections.emptyList())), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<CreditCardResponse> update(@PathVariable final ObjectId id,
                                                      @RequestBody final CreditCard creditCard) {
         logger.info("Put -> id: {}, request: {}", id, creditCard);
-        return ResponseEntity.ok(responseMapper.apply(Map.entry(0.0, creditCardService.save(creditCard))));
+        return ResponseEntity.ok(responseMapper.apply(Map.entry(creditCardService.save(creditCard), Collections.emptyList())));
     }
 
     @DeleteMapping("/{id}")
