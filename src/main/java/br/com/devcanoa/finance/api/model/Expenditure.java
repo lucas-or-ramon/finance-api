@@ -8,8 +8,8 @@ import java.time.LocalDate;
 @Document(collection = "expenditure")
 public class Expenditure extends Registry {
 
-    public Expenditure(final ObjectId id, final LocalDate date, final Double value, final String description, final ObjectId creditCardId) {
-        super(id, date, value, description, creditCardId);
+    public Expenditure(final ObjectId id, final LocalDate date, final Double value, final String description, final ObjectId creditCardId, final Recurrency recurrency) {
+        super(id, date, value, description, creditCardId, recurrency);
     }
 
     @Override

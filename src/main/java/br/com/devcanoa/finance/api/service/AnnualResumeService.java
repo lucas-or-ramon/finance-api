@@ -1,7 +1,7 @@
 package br.com.devcanoa.finance.api.service;
 
-import br.com.devcanoa.finance.api.controller.response.AnnualResumeResponse;
-import br.com.devcanoa.finance.api.controller.response.MonthlyResumeResponse;
+import br.com.devcanoa.finance.api.domain.response.AnnualResumeResponse;
+import br.com.devcanoa.finance.api.domain.response.MonthlyResumeResponse;
 import br.com.devcanoa.finance.api.exception.FinanceException;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;

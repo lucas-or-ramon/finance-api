@@ -1,6 +1,6 @@
 package br.com.devcanoa.finance.api.service;
 
-import br.com.devcanoa.finance.api.controller.response.MonthlyResumeResponse;
+import br.com.devcanoa.finance.api.domain.response.MonthlyResumeResponse;
 import br.com.devcanoa.finance.api.model.Expenditure;
 import br.com.devcanoa.finance.api.model.Revenue;
 import org.springframework.stereotype.Service;

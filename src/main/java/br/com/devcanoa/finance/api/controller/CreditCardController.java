@@ -1,7 +1,7 @@
 package br.com.devcanoa.finance.api.controller;
 
-import br.com.devcanoa.finance.api.controller.response.CreditCardResponse;
-import br.com.devcanoa.finance.api.controller.response.CreditCardResponseMapper;
+import br.com.devcanoa.finance.api.domain.response.CreditCardResponse;
+import br.com.devcanoa.finance.api.mapper.response.CreditCardResponseMapper;
 import br.com.devcanoa.finance.api.exception.RegistryNotFoundException;
 import br.com.devcanoa.finance.api.model.CreditCard;
 import br.com.devcanoa.finance.api.service.CreditCardService;

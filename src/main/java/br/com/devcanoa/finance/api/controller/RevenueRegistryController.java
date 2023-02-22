@@ -1,7 +1,7 @@
 package br.com.devcanoa.finance.api.controller;
 
-import br.com.devcanoa.finance.api.controller.request.RegistryRequestMapper;
-import br.com.devcanoa.finance.api.controller.response.RegistryResponseMapper;
+import br.com.devcanoa.finance.api.mapper.request.RequestRegistryMapper;
+import br.com.devcanoa.finance.api.mapper.response.RegistryResponseMapper;
 import br.com.devcanoa.finance.api.model.Revenue;
 import br.com.devcanoa.finance.api.repository.MongoRepository;
 import br.com.devcanoa.finance.api.service.RegistryService;
@@ -14,7 +14,7 @@ public class RevenueRegistryController extends AbstractRegistryController<Revenu
 
     public RevenueRegistryController(final MongoRepository<Revenue> mongoRepository,
                                      final RegistryResponseMapper<Revenue> responseMapper,
-                                     final RegistryRequestMapper<Revenue> requestMapper,
+                                     final RequestRegistryMapper<Revenue> requestMapper,
                                      final RegistryService<Revenue> registryService) {
         super(mongoRepository, responseMapper, requestMapper, registryService);
     }

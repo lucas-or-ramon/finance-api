@@ -1,7 +1,6 @@
-package br.com.devcanoa.finance.api.controller.response;
+package br.com.devcanoa.finance.api.domain.response;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public record MonthlyResumeResponse(LocalDate date, double balance, ResumeResponse revenue,
                                     ResumeResponse expenditure) {

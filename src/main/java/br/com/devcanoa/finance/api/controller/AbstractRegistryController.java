@@ -1,10 +1,10 @@
 package br.com.devcanoa.finance.api.controller;
 
-import br.com.devcanoa.finance.api.controller.request.RegistryRequest;
-import br.com.devcanoa.finance.api.controller.request.RegistryRequestMapper;
-import br.com.devcanoa.finance.api.controller.response.RegistryResponse;
-import br.com.devcanoa.finance.api.controller.response.RegistryResponseMapper;
-import br.com.devcanoa.finance.api.controller.response.ResumeResponse;
+import br.com.devcanoa.finance.api.domain.request.RegistryRequest;
+import br.com.devcanoa.finance.api.mapper.request.RequestRegistryMapper;
+import br.com.devcanoa.finance.api.domain.response.RegistryResponse;
+import br.com.devcanoa.finance.api.mapper.response.RegistryResponseMapper;
+import br.com.devcanoa.finance.api.domain.response.ResumeResponse;
 import br.com.devcanoa.finance.api.domain.FinanceDate;
 import br.com.devcanoa.finance.api.exception.FinanceException;
 import br.com.devcanoa.finance.api.exception.RegistryNotFoundException;
@@ -25,13 +25,13 @@ public class AbstractRegistryController<T extends Registry> {
 
     Logger logger = LoggerFactory.getLogger(AbstractRegistryController.class);
     private final MongoRepository<T> mongoRepository;
-    private final RegistryRequestMapper<T> requestMapper;
+    private final RequestRegistryMapper<T> requestMapper;
     private final RegistryResponseMapper<T> responseMapper;
     private final RegistryService<T> registryService;
 
     public AbstractRegistryController(final MongoRepository<T> mongoRepository,
                                       final RegistryResponseMapper<T> responseMapper,
-                                      final RegistryRequestMapper<T> requestMapper,
+                                      final RequestRegistryMapper<T> requestMapper,
                                       final RegistryService<T> registryService) {
         this.mongoRepository = mongoRepository;
         this.requestMapper = requestMapper;
@@ -50,10 +50,7 @@ public class AbstractRegistryController<T extends Registry> {
     @PostMapping
     public ResponseEntity<RegistryResponse> insert(@RequestBody final RegistryRequest registryRequest) {
         logger.info("Post -> request: {}", registryRequest);
-        final var registry = requestMapper.mapper(Pair.of(new ObjectId(), registryRequest));
-        return new ResponseEntity<>(mongoRepository.insert(registry)
-                .map(responseMapper)
-                .orElseThrow(() -> new FinanceException("Error when trying to save registry")), HttpStatus.CREATED);
+        return new ResponseEntity<>(registryService.insert(registryRequest), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")

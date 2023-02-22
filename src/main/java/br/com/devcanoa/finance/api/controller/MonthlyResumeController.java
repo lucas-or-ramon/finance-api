@@ -1,6 +1,6 @@
 package br.com.devcanoa.finance.api.controller;
 
-import br.com.devcanoa.finance.api.controller.response.MonthlyResumeResponse;
+import br.com.devcanoa.finance.api.domain.response.MonthlyResumeResponse;
 import br.com.devcanoa.finance.api.domain.FinanceDate;
 import br.com.devcanoa.finance.api.service.MonthlyResumeService;
 import org.slf4j.Logger;

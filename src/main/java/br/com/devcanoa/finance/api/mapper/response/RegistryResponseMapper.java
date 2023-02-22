@@ -1,5 +1,6 @@
-package br.com.devcanoa.finance.api.controller.response;
+package br.com.devcanoa.finance.api.mapper.response;
 
+import br.com.devcanoa.finance.api.domain.response.RegistryResponse;
 import br.com.devcanoa.finance.api.model.Registry;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,8 @@ public class RegistryResponseMapper<T extends Registry> implements Function<T, R
                 registry.getDate(),
                 registry.getValue(),
                 registry.getDescription(),
-                Objects.nonNull(creditCardId) ? creditCardId.toString() : null
+                Objects.nonNull(creditCardId) ? creditCardId.toString() : null,
+                new RecurrencyResponseMapper().apply(registry.getRecurrency())
         );
     }
 }

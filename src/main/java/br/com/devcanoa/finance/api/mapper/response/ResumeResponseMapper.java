@@ -1,5 +1,8 @@
-package br.com.devcanoa.finance.api.controller.response;
+package br.com.devcanoa.finance.api.mapper.response;
 
+import br.com.devcanoa.finance.api.domain.response.CreditCardResponse;
+import br.com.devcanoa.finance.api.domain.response.RegistryResponse;
+import br.com.devcanoa.finance.api.domain.response.ResumeResponse;
 import br.com.devcanoa.finance.api.model.Registry;
 import br.com.devcanoa.finance.api.service.CreditCardService;
 import org.bson.types.ObjectId;
