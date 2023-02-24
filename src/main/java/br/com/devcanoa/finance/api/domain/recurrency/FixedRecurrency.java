@@ -1,14 +1,13 @@
 package br.com.devcanoa.finance.api.domain.recurrency;
 
-import br.com.devcanoa.finance.api.exception.FinanceException;
-import br.com.devcanoa.finance.api.mapper.registry.RegistryMapper;
-import br.com.devcanoa.finance.api.model.Recurrency;
-import br.com.devcanoa.finance.api.model.Registry;
+import br.com.devcanoa.finance.api.domain.exception.FinanceException;
+import br.com.devcanoa.finance.api.domain.adapter.mapper.registry.RegistryMapper;
+import br.com.devcanoa.finance.api.infra.adapter.entity.Recurrency;
+import br.com.devcanoa.finance.api.infra.adapter.entity.Registry;
 import org.bson.types.ObjectId;
 
 import java.time.Period;
 import java.util.List;
-import java.util.Objects;
 
 import static java.util.Objects.nonNull;
 
