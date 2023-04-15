@@ -1,14 +1,14 @@
 package br.com.devcanoa.finance.api.domain.repository;
 
-import br.com.devcanoa.finance.api.domain.model.CreditCard;
+import br.com.devcanoa.finance.api.adapter.outbound.entity.CreditCardEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CreditCardRepository {
 
-    List<CreditCard> listAll();
-    Optional<CreditCard> getById(final String id);
-    Optional<CreditCard> save(final CreditCard creditCard);
-    Optional<CreditCard> delete(final String id);
+    List<CreditCardEntity> listAll();
+    Optional<CreditCardEntity> getById(final String id);
+    Optional<CreditCardEntity> save(final CreditCardEntity entity);
+    Optional<CreditCardEntity> delete(final String id);
 }

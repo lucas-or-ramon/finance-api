@@ -21,7 +21,7 @@ import static java.util.Objects.nonNull;
 //
 //    @Override
 //    public List<T> creates(T registry) {
-//        final var recurrency = getNewRecurrency(registry.getRecurrency());
+//        final var recurrency = getNewRecurrency(registry.getRecurrencyId());
 //
 //        return recurrency.start().datesUntil(recurrency.end().plusMonths(1), Period.ofMonths(1))
 //                .map(date -> registryMapper.mapToDomain(new ObjectId().toString(), null))

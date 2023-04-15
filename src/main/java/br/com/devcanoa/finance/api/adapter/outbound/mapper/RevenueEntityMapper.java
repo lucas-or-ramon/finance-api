@@ -18,7 +18,7 @@ public class RevenueEntityMapper implements RegistryEntityMapper<RevenueEntity, 
                     entity.getValue(),
                     entity.getDescription(),
                     nonNull(creditCardId) ? creditCardId.toString() : null,
-                    RecurrencyEntityMapper.mapToDomain(entity.getRecurrency()));
+                    entity.getRecurrencyId());
 
         }
         return null;

@@ -18,7 +18,7 @@ public class ExpenditureEntityMapper implements RegistryEntityMapper<Expenditure
                     entity.getValue(),
                     entity.getDescription(),
                     nonNull(creditCardId) ? creditCardId.toString() : null,
-                    RecurrencyEntityMapper.mapToDomain(entity.getRecurrency()));
+                    RecurrencyEntityMapper.mapToDomain(entity.getRecurrencyId()));
         }
         return null;
     }

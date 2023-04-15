@@ -27,36 +27,36 @@ public class CreditCardRepositoryMongo implements CreditCardRepository {
     }
 
     @Override
-    public List<CreditCard> listAll() {
+    public List<CreditCardEntity> listAll() {
         try {
-            return mongoTemplate.findAll(CreditCardEntity.class).stream().map(CreditCardEntityMapper::mapToDomain).toList();
+            return mongoTemplate.findAll(CreditCardEntity.class);
         } catch (final Exception e) {
             throw new CreditCardException("Error when trying to find credit card:", e);
         }
     }
 
     @Override
-    public Optional<CreditCard> getById(String id) {
+    public Optional<CreditCardEntity> getById(String id) {
         try {
-            return ofNullable(mapToDomain(mongoTemplate.findById(id, CreditCardEntity.class)));
+            return ofNullable(mongoTemplate.findById(id, CreditCardEntity.class));
         } catch (final Exception e) {
             throw new CreditCardException("Error when trying to find credit card by id: " + id, e);
         }
     }
 
     @Override
-    public Optional<CreditCard> save(CreditCard creditCard) {
+    public Optional<CreditCardEntity> save(CreditCardEntity entity) {
         try {
-            return ofNullable(mapToDomain(mongoTemplate.save(mapToEntity(creditCard))));
+            return Optional.of(mongoTemplate.save(entity));
         } catch (final Exception e) {
-            throw new CreditCardException("Error when trying to save credit card: " + creditCard.toString(), e);
+            throw new CreditCardException("Error when trying to save credit card: " + entity.toString(), e);
         }
     }
 
     @Override
-    public Optional<CreditCard> delete(String id) {
+    public Optional<CreditCardEntity> delete(String id) {
         try {
-            return ofNullable(mapToDomain(mongoTemplate.findAndRemove(Query.query(Criteria.where("id").is(id)), CreditCardEntity.class)));
+            return ofNullable(mongoTemplate.findAndRemove(Query.query(Criteria.where("id").is(id)), CreditCardEntity.class));
         } catch (final Exception e) {
             throw new CreditCardException("Error when trying to delete credit card by id: " + id, e);
         }

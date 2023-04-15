@@ -13,15 +13,15 @@ public class RegistryEntity {
     private final LocalDate date;
     private final String description;
     private final ObjectId creditCardId;
-    private final RecurrencyEntity recurrencyEntity;
+    private final ObjectId recurrencyId;
 
-    public RegistryEntity(final ObjectId id, final LocalDate date, final Double value, final String description, final ObjectId creditCardId, final RecurrencyEntity recurrencyEntity) {
+    public RegistryEntity(final ObjectId id, final LocalDate date, final Double value, final String description, final ObjectId creditCardId, final ObjectId recurrencyId) {
         this.id = id;
         this.date = date;
         this.value = value;
         this.description = description;
         this.creditCardId = creditCardId;
-        this.recurrencyEntity = recurrencyEntity;
+        this.recurrencyId = recurrencyId;
     }
 
     public ObjectId getId() {
@@ -44,7 +44,7 @@ public class RegistryEntity {
         return creditCardId;
     }
 
-    public RecurrencyEntity getRecurrency() {
-        return recurrencyEntity;
+    public ObjectId getRecurrencyId() {
+        return recurrencyId;
     }
 }

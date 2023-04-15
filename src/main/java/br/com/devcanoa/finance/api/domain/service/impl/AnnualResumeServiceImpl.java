@@ -1,7 +1,6 @@
 package br.com.devcanoa.finance.api.domain.service.impl;
 
 import br.com.devcanoa.finance.api.adapter.inbound.dto.response.AnnualResponse;
-import br.com.devcanoa.finance.api.adapter.inbound.dto.response.MonthlyResponse;
 import br.com.devcanoa.finance.api.domain.exception.FinanceException;
 import br.com.devcanoa.finance.api.domain.model.Monthly;
 import br.com.devcanoa.finance.api.domain.service.AnnualResumeService;

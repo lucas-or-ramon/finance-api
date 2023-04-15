@@ -4,7 +4,6 @@ import br.com.devcanoa.finance.api.adapter.inbound.mapper.ExpenditureMapper;
 import br.com.devcanoa.finance.api.adapter.inbound.mapper.RegistryMapper;
 import br.com.devcanoa.finance.api.adapter.inbound.mapper.RevenueMapper;
 import br.com.devcanoa.finance.api.adapter.outbound.entity.ExpenditureEntity;
-import br.com.devcanoa.finance.api.adapter.outbound.entity.RegistryEntity;
 import br.com.devcanoa.finance.api.adapter.outbound.entity.RevenueEntity;
 import br.com.devcanoa.finance.api.adapter.outbound.mapper.ExpenditureEntityMapper;
 import br.com.devcanoa.finance.api.adapter.outbound.mapper.RevenueEntityMapper;
@@ -41,12 +40,12 @@ public class RegistryConfig {
 
     @Bean
     public RegistryService<Revenue> revenueService() {
-        return new RegistryServiceImpl<>(revenueRepository());
+        return new RegistryServiceImpl<>(revenueRepository(), recurrencyRepository, mapper);
     }
 
     @Bean
     public RegistryService<Expenditure> expenditureService() {
-        return new RegistryServiceImpl<>(expenditureRepository());
+        return new RegistryServiceImpl<>(expenditureRepository(), recurrencyRepository, mapper);
     }
 
     @Bean

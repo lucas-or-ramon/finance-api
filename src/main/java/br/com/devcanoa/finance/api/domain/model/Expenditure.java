@@ -1,8 +1,5 @@
 package br.com.devcanoa.finance.api.domain.model;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.time.LocalDate;
 
 public class Expenditure extends Registry {

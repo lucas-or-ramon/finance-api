@@ -1,7 +1,6 @@
 package br.com.devcanoa.finance.api.domain.model;
 
 import br.com.devcanoa.finance.api.domain.model.recurrency.RecurrencyType;
-import org.bson.types.ObjectId;
 
 import java.time.LocalDate;
 
