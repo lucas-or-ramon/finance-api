@@ -21,8 +21,8 @@ public class MonthlyMapper {
                 monthly.balance(),
                 monthly.totalRevenue(),
                 monthly.totalExpenditure(),
-                monthly.revenues().stream().map(revenueMapper::mapToResponse).toList(),
-                monthly.expenditures().stream().map(expenditureMapper::mapToResponse).toList(),
+                monthly.revenues().stream().map(revenue -> revenueMapper.mapToResponse(revenue, monthly.date())).toList(),
+                monthly.expenditures().stream().map(expenditure -> expenditureMapper.mapToResponse(expenditure, monthly.date())).toList(),
                 monthly.creditCards().stream().map(CreditCardMapper::mapToResponse).toList());
     }
 }

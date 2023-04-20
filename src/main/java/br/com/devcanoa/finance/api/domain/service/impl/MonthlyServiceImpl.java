@@ -26,7 +26,7 @@ public class MonthlyServiceImpl implements MonthlyService {
     }
 
     @Override
-    public Monthly getMonthlyResume(final LocalDate date) {
+    public Monthly getMonthlyResume(final FinanceDate date) {
         final var revenues = revenueService.getByDate(date);
         final var totalRevenue = revenues.stream().mapToDouble(Revenue::getValue).sum();
         final var expenditures = expenditureService.getByDate(date);

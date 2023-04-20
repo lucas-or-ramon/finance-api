@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class FinanceExceptionHandler {
 
-    Logger logger = LoggerFactory.getLogger(FinanceExceptionHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FinanceExceptionHandler.class);
 
     @ExceptionHandler(value = RegistryNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleException(final RegistryNotFoundException exception) {
@@ -37,7 +37,7 @@ public class FinanceExceptionHandler {
     }
 
     private ResponseEntity<ErrorResponse> getErrorResponseEntity(final Exception exception, final HttpStatus httpStatus) {
-        logger.error(exception.getMessage());
+        LOGGER.error(exception.getMessage());
         final var errorResponse = new ErrorResponse(httpStatus.value(), exception.getMessage(), System.currentTimeMillis());
         return new ResponseEntity<>(errorResponse, httpStatus);
     }

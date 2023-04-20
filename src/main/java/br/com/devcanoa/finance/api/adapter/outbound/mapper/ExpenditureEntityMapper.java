@@ -14,24 +14,22 @@ public class ExpenditureEntityMapper implements RegistryEntityMapper<Expenditure
             final var creditCardId = entity.getCreditCardId();
             return new Expenditure(
                     entity.getId().toString(),
-                    entity.getDate(),
                     entity.getValue(),
                     entity.getDescription(),
                     nonNull(creditCardId) ? creditCardId.toString() : null,
-                    RecurrencyEntityMapper.mapToDomain(entity.getRecurrencyId()));
+                    RecurrenceEntityMapper.mapToDomain(entity.getRecurrence()));
         }
         return null;
     }
 
     @Override
     public ExpenditureEntity mapToEntity(final Expenditure registry) {
-        final var credirCardId = registry.getCreditCardId();
+        final var creditCardId = registry.getCreditCardId();
         return new ExpenditureEntity(
                 new ObjectId(registry.getId()),
-                registry.getDate(),
                 registry.getValue(),
                 registry.getDescription(),
-                nonNull(credirCardId) ? new ObjectId(credirCardId) : null,
-                RecurrencyEntityMapper.mapToEntity(registry.getRecurrency()));
+                nonNull(creditCardId) ? new ObjectId(creditCardId) : null,
+                RecurrenceEntityMapper.mapToEntity(registry.getRecurrence()));
     }
 }

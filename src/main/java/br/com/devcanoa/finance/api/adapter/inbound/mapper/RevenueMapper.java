@@ -1,6 +1,7 @@
 package br.com.devcanoa.finance.api.adapter.inbound.mapper;
 
 import br.com.devcanoa.finance.api.adapter.inbound.dto.request.RegistryRequest;
+import br.com.devcanoa.finance.api.domain.model.FinanceDate;
 import br.com.devcanoa.finance.api.domain.model.Revenue;
 
 public class RevenueMapper implements RegistryMapper<Revenue> {
@@ -9,10 +10,9 @@ public class RevenueMapper implements RegistryMapper<Revenue> {
     public Revenue mapToDomain(String id, RegistryRequest request) {
         return new Revenue(
                 id,
-                request.date(),
                 request.value(),
                 request.description(),
                 request.creditCardId(),
-                RecurrencyMapper.mapToDomain(request.recurrency()));
+                RecurrenceMapper.mapToDomain(request.recurrence()));
     }
 }

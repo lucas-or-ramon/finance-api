@@ -1,10 +1,10 @@
 package br.com.devcanoa.finance.api.domain.model;
 
-import java.time.LocalDate;
+import br.com.devcanoa.finance.api.domain.model.recurrence.Recurrence;
 
 public class Revenue extends Registry {
 
-    public Revenue(final String id, final LocalDate date, final Double value, final String description, final String creditCardId, final Recurrency recurrency) {
-        super(id, date, value, description, creditCardId, recurrency);
+    public Revenue(final String id, final Double value, final String description, final String creditCardId, final Recurrence recurrence) {
+        super(id, value, description, creditCardId, recurrence);
     }
 }

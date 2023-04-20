@@ -5,5 +5,5 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.time.LocalDate;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public record CreditCardResponse(String id, String name, LocalDate dueDate) {
+public record CreditCardResponse(String id, String name, int dueDate) {
 }

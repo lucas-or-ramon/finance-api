@@ -7,5 +7,5 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDate;
 
 @Document(collection = "credit-card")
-public record CreditCardEntity(@Id ObjectId id, String name, LocalDate dueDate) {
+public record CreditCardEntity(@Id ObjectId id, String name, int dueDate) {
 }

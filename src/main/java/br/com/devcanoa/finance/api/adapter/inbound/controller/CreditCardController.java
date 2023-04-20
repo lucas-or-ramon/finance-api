@@ -20,7 +20,8 @@ import static br.com.devcanoa.finance.api.adapter.inbound.mapper.CreditCardMappe
 @RequestMapping("/api/v1/credit-card")
 public class CreditCardController {
 
-    Logger logger = LoggerFactory.getLogger(CreditCardController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CreditCardController.class);
+
     private final CreditCardService creditCardService;
 
     public CreditCardController(final CreditCardService creditCardService) {
@@ -29,33 +30,33 @@ public class CreditCardController {
 
     @GetMapping()
     public ResponseEntity<List<CreditCardResponse>> listAll() {
-        logger.info("Get");
+        LOGGER.info("Get");
         return ResponseEntity.ok(creditCardService.listAll().stream().map(CreditCardMapper::mapToResponse).toList());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CreditCardResponse> getById(@PathVariable final String id) {
-        logger.info("Get -> id: {}", id);
+        LOGGER.info("Get -> id: {}", id);
         return ResponseEntity.ok(mapToResponse(creditCardService.getById(id)));
     }
 
     @PostMapping
     public ResponseEntity<String> insert(@RequestBody final CreditCardRequest request) {
-        logger.info("Post -> request: {}", request);
+        LOGGER.info("Post -> request: {}", request);
         creditCardService.insert(mapToDomain(new ObjectId().toString(), request));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<String> update(@PathVariable final String id, @RequestBody final CreditCardRequest request) {
-        logger.info("Put -> id: {}, request: {}", id, request);
+        LOGGER.info("Put -> id: {}, request: {}", id, request);
         creditCardService.update(mapToDomain(id, request));
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable final String id) {
-        logger.info("Delete -> id: {}", id);
+        LOGGER.info("Delete -> id: {}", id);
         creditCardService.delete(id);
         return ResponseEntity.ok().build();
     }

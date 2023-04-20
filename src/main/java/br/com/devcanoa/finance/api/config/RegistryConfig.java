@@ -29,23 +29,23 @@ public class RegistryConfig {
 
     @Bean
     @Primary
-    public RegistryRepository<Revenue> revenueRepository() {
-        return new RegistryRepositoryMongo<>(mongoTemplate, RevenueEntity.class, new RevenueEntityMapper());
+    public RegistryRepository<RevenueEntity> revenueRepository() {
+        return new RegistryRepositoryMongo<>(mongoTemplate, RevenueEntity.class);
     }
 
     @Bean
-    public RegistryRepository<Expenditure> expenditureRepository() {
-        return new RegistryRepositoryMongo<>(mongoTemplate, ExpenditureEntity.class, new ExpenditureEntityMapper());
+    public RegistryRepository<ExpenditureEntity> expenditureRepository() {
+        return new RegistryRepositoryMongo<>(mongoTemplate, ExpenditureEntity.class);
     }
 
     @Bean
     public RegistryService<Revenue> revenueService() {
-        return new RegistryServiceImpl<>(revenueRepository(), recurrencyRepository, mapper);
+        return new RegistryServiceImpl<>(revenueRepository(), new RevenueEntityMapper());
     }
 
     @Bean
     public RegistryService<Expenditure> expenditureService() {
-        return new RegistryServiceImpl<>(expenditureRepository(), recurrencyRepository, mapper);
+        return new RegistryServiceImpl<>(expenditureRepository(), new ExpenditureEntityMapper());
     }
 
     @Bean

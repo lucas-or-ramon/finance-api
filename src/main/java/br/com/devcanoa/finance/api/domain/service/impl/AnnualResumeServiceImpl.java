@@ -2,6 +2,7 @@ package br.com.devcanoa.finance.api.domain.service.impl;
 
 import br.com.devcanoa.finance.api.adapter.inbound.dto.response.AnnualResponse;
 import br.com.devcanoa.finance.api.domain.exception.FinanceException;
+import br.com.devcanoa.finance.api.domain.model.FinanceDate;
 import br.com.devcanoa.finance.api.domain.model.Monthly;
 import br.com.devcanoa.finance.api.domain.service.AnnualResumeService;
 import br.com.devcanoa.finance.api.domain.service.MonthlyService;
@@ -27,13 +28,13 @@ public class AnnualResumeServiceImpl implements AnnualResumeService {
     }
 
     @Override
-    public AnnualResponse annualResume(final LocalDate date) {
+    public AnnualResponse annualResume(final FinanceDate date) {
         final var completableFutures = IntStream.rangeClosed(0, 11)
-                .mapToObj(i -> getCompletableFutures(date.minusMonths(i))).toList();
+                .mapToObj(month -> getCompletableFutures(date.minusMonths(month))).toList();
         return run(completableFutures);
     }
 
-    private CompletableFuture<Monthly> getCompletableFutures(final LocalDate date) {
+    private CompletableFuture<Monthly> getCompletableFutures(final FinanceDate date) {
         return CompletableFuture.supplyAsync(() -> monthlyService.getMonthlyResume(date), taskExecutor);
     }
 
