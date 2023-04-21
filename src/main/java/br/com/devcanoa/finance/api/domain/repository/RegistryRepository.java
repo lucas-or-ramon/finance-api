@@ -10,7 +10,7 @@ public interface RegistryRepository<T extends RegistryEntity> {
 
     List<T> getByDescription(String description);
     Optional<T> getById(String id);
-    List<T> getByDate(FinanceDate date);
+    List<T> getByDate(int dateAsNumericValue);
     Optional<T> save(T entity);
     Optional<T> delete(String id);
 }

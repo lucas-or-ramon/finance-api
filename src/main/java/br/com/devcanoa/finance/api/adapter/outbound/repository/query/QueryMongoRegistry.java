@@ -1,6 +1,5 @@
 package br.com.devcanoa.finance.api.adapter.outbound.repository.query;
 
-import br.com.devcanoa.finance.api.domain.model.FinanceDate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -16,11 +15,10 @@ public final class QueryMongoRegistry {
         return query(where("description").regex(description, "i"));
     }
 
-    public static Query whereRecurrenceHas(final FinanceDate date) {
+    public static Query whereRecurrenceHas(final int dateAsNumericValue) {
         return query(new Criteria().andOperator(
-                        where("recurrence.start.year").lte(date.year()),
-                        where("recurrence.start.month").lte(date.month()),
-                        where("recurrence.end.year").gte(date.year()),
-                        where("recurrence.end.month").gte(date.month())));
+                Criteria.where("recurrence.start").lte(dateAsNumericValue),
+                Criteria.where("recurrence.end").gte(dateAsNumericValue)
+        ));
     }
 }

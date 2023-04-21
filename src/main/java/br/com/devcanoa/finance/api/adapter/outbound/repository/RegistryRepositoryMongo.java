@@ -36,8 +36,8 @@ public class RegistryRepositoryMongo<R extends RegistryEntity> implements Regist
     }
 
     @Override
-    public List<R> getByDate(final FinanceDate date) {
-        return find(whereRecurrenceHas(date));
+    public List<R> getByDate(final int dateAsNumericValue) {
+        return find(whereRecurrenceHas(dateAsNumericValue));
     }
 
     @Override

@@ -7,7 +7,7 @@ import br.com.devcanoa.finance.api.domain.model.recurrence.Recurrence;
 public interface RecurrenceMapper {
 
     static Recurrence mapToDomain(final RecurrenceRequest request) {
-        return new Recurrence(request.type(), request.dueDate(), request.start(), request.end());
+        return new Recurrence(request.type(), request.dueDate(), request.start().mapToDomain(), request.end().mapToDomain());
     }
 
     static RecurrenceResponse mapToResponse(final Recurrence recurrence) {

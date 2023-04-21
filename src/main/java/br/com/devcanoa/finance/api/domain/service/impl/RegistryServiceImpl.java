@@ -38,7 +38,7 @@ public class RegistryServiceImpl<T extends Registry, R extends RegistryEntity> i
 
     @Override
     public List<T> getByDate(final FinanceDate date) {
-        return registryRepository.getByDate(date).stream()
+        return registryRepository.getByDate(date.getNumericValue()).stream()
                 .map(mapper::mapToDomain)
                 .toList();
     }

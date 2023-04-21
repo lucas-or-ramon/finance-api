@@ -2,7 +2,6 @@ package br.com.devcanoa.finance.api.adapter.inbound.mapper;
 
 import br.com.devcanoa.finance.api.adapter.inbound.dto.request.RegistryRequest;
 import br.com.devcanoa.finance.api.domain.model.Expenditure;
-import br.com.devcanoa.finance.api.domain.model.FinanceDate;
 
 public class ExpenditureMapper implements RegistryMapper<Expenditure> {
 
