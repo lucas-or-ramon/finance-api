@@ -4,6 +4,7 @@ import br.com.devcanoa.finance.api.adapter.inbound.dto.request.CreditCardRequest
 import br.com.devcanoa.finance.api.adapter.inbound.dto.response.CreditCardResponse;
 import br.com.devcanoa.finance.api.adapter.inbound.mapper.CreditCardMapper;
 import br.com.devcanoa.finance.api.domain.service.CreditCardService;
+import jakarta.validation.Valid;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,14 +42,14 @@ public class CreditCardController {
     }
 
     @PostMapping
-    public ResponseEntity<String> insert(@RequestBody final CreditCardRequest request) {
+    public ResponseEntity<String> insert(@RequestBody @Valid final CreditCardRequest request) {
         LOGGER.info("Post -> request: {}", request);
         creditCardService.insert(mapToDomain(new ObjectId().toString(), request));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<String> update(@PathVariable final String id, @RequestBody final CreditCardRequest request) {
+    public ResponseEntity<String> update(@PathVariable final String id, @RequestBody @Valid final CreditCardRequest request) {
         LOGGER.info("Put -> id: {}, request: {}", id, request);
         creditCardService.update(mapToDomain(id, request));
         return ResponseEntity.ok().build();

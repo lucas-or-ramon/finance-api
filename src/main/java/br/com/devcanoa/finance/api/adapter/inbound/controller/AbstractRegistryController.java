@@ -1,11 +1,13 @@
 package br.com.devcanoa.finance.api.adapter.inbound.controller;
 
+import br.com.devcanoa.finance.api.adapter.inbound.dto.request.FinanceDateRequest;
 import br.com.devcanoa.finance.api.adapter.inbound.dto.request.RegistryRequest;
 import br.com.devcanoa.finance.api.adapter.inbound.dto.response.RegistryResponse;
 import br.com.devcanoa.finance.api.adapter.inbound.mapper.RegistryMapper;
 import br.com.devcanoa.finance.api.domain.model.FinanceDate;
 import br.com.devcanoa.finance.api.domain.model.Registry;
 import br.com.devcanoa.finance.api.domain.service.RegistryService;
+import jakarta.validation.Valid;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,14 +36,14 @@ public class AbstractRegistryController<T extends Registry> {
     }
 
     @PostMapping
-    public ResponseEntity<String> insert(@RequestBody final RegistryRequest request) {
+    public ResponseEntity<String> insert(@RequestBody @Valid final RegistryRequest request) {
         LOGGER.info("Post -> request: {}", request);
         service.insert(mapper.mapToDomain(new ObjectId().toString(), request));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<String> update(@PathVariable final String id, @RequestBody final RegistryRequest request) {
+    public ResponseEntity<String> update(@PathVariable final String id, @RequestBody @Valid final RegistryRequest request) {
         LOGGER.info("Put -> id: {}, request: {}", id, request);
         service.update(mapper.mapToDomain(id, request));
         return ResponseEntity.ok().build();
@@ -63,10 +65,10 @@ public class AbstractRegistryController<T extends Registry> {
     }
 
     @PostMapping("/date")
-    public ResponseEntity<List<RegistryResponse>> getByYearAndMonth(@RequestBody final FinanceDate date) {
+    public ResponseEntity<List<RegistryResponse>> getByYearAndMonth(@RequestBody @Valid final FinanceDateRequest date) {
         LOGGER.info("Get -> date: {}", date);
-        return ResponseEntity.ok(service.getByDate(date).stream()
-                .map(registry -> mapper.mapToResponse(registry, date))
+        return ResponseEntity.ok(service.getByDate(date.mapToDomain()).stream()
+                .map(registry -> mapper.mapToResponse(registry, date.mapToDomain()))
                 .toList());
     }
 }
