@@ -4,7 +4,8 @@ import br.com.devcanoa.finance.api.domain.model.recurrence.Recurrence;
 
 public class Revenue extends Registry {
 
-    public Revenue(final String id, final Double value, final String description, final String creditCardId, final Recurrence recurrence) {
-        super(id, value, description, creditCardId, recurrence);
+    public Revenue(final String id, final Double value, final String description, final String category,
+                   final CreditCard creditCard, final Recurrence recurrence) {
+        super(id, value, description, category, creditCard, recurrence);
     }
 }

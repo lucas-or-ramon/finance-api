@@ -7,6 +7,6 @@ public class ExpenditureMapper implements RegistryMapper<Expenditure> {
 
     @Override
     public Expenditure mapToDomain(String id, RegistryRequest request) {
-        return new Expenditure(id, request.value(), request.description(), request.creditCardId(), RecurrenceMapper.mapToDomain(request.recurrence()));
+        return new Expenditure(id, request.value(), request.description(), request.category(), request.creditCardId(), RecurrenceMapper.mapToDomain(request.recurrence()));
     }
 }

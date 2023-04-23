@@ -12,6 +12,6 @@ public class ExpenditureRegistryController extends AbstractRegistryController<Ex
 
     public ExpenditureRegistryController(final RegistryService<Expenditure> expenditureService,
                                          final RegistryMapper<Expenditure> expenditureMapper) {
-        super(expenditureService, expenditureMapper);
+        super(expenditureService, expenditureMapper, creditCardService);
     }
 }

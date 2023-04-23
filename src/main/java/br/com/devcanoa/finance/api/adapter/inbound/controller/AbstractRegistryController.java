@@ -6,6 +6,7 @@ import br.com.devcanoa.finance.api.adapter.inbound.dto.response.RegistryResponse
 import br.com.devcanoa.finance.api.adapter.inbound.mapper.RegistryMapper;
 import br.com.devcanoa.finance.api.domain.model.FinanceDate;
 import br.com.devcanoa.finance.api.domain.model.Registry;
+import br.com.devcanoa.finance.api.domain.service.CreditCardService;
 import br.com.devcanoa.finance.api.domain.service.RegistryService;
 import jakarta.validation.Valid;
 import org.bson.types.ObjectId;
@@ -23,10 +24,15 @@ public class AbstractRegistryController<T extends Registry> {
 
     private final RegistryMapper<T> mapper;
     private final RegistryService<T> service;
+    private final CreditCardService creditCardService;
 
-    public AbstractRegistryController(final RegistryService<T> service, RegistryMapper<T> mapper) {
+
+    public AbstractRegistryController(final RegistryService<T> service,
+                                      final RegistryMapper<T> mapper,
+                                      final CreditCardService creditCardService) {
         this.mapper = mapper;
         this.service = service;
+        this.creditCardService = creditCardService;
     }
 
     @GetMapping(value = "/{id}")
@@ -38,7 +44,10 @@ public class AbstractRegistryController<T extends Registry> {
     @PostMapping
     public ResponseEntity<String> insert(@RequestBody @Valid final RegistryRequest request) {
         LOGGER.info("Post -> request: {}", request);
-        service.insert(mapper.mapToDomain(new ObjectId().toString(), request));
+        final var creditCard = creditCardService.getById(request.creditCardId());
+
+        final var registry = mapper.mapToDomain(new ObjectId().toString(), request, creditCard);
+        service.insert(registry);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

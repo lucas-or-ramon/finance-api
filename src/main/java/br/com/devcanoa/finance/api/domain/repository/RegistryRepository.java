@@ -1,16 +1,15 @@
 package br.com.devcanoa.finance.api.domain.repository;
 
 import br.com.devcanoa.finance.api.adapter.outbound.entity.RegistryEntity;
-import br.com.devcanoa.finance.api.domain.model.FinanceDate;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface RegistryRepository<T extends RegistryEntity> {
+public interface RegistryRepository<E extends RegistryEntity> {
 
-    List<T> getByDescription(String description);
-    Optional<T> getById(String id);
-    List<T> getByDate(int dateAsNumericValue);
-    Optional<T> save(T entity);
-    Optional<T> delete(String id);
+    List<E> getByDescription(String description);
+    Optional<E> getById(String id);
+    List<E> getByDate(int dateAsNumericValue);
+    Optional<E> save(E entity);
+    Optional<E> delete(String id);
 }

@@ -4,8 +4,9 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record RegistryRequest(@NotBlank String description,
+public record RegistryRequest(@NotBlank String category,
+                              @NotBlank String description,
                               @NotNull @Min(0) Double value,
-                              String creditCardId,
-                              @NotNull RecurrenceRequest recurrence) {
+                              @NotNull RecurrenceRequest recurrence,
+                              String creditCardId) {
 }

@@ -5,7 +5,6 @@ import br.com.devcanoa.finance.api.domain.service.CreditCardService;
 import br.com.devcanoa.finance.api.domain.service.MonthlyService;
 import br.com.devcanoa.finance.api.domain.service.RegistryService;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -38,7 +37,7 @@ public class MonthlyServiceImpl implements MonthlyService {
 
     private List<CreditCard> getCreditCards(List<Revenue> revenues, List<Expenditure> expenditures) {
         return Stream.concat(revenues.stream(), expenditures.stream())
-                .map(Registry::getCreditCardId)
+                .map(Registry::getCreditCard)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet())
                 .parallelStream()

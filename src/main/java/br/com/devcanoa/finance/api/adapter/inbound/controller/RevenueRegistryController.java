@@ -12,6 +12,6 @@ public class RevenueRegistryController extends AbstractRegistryController<Revenu
 
     public RevenueRegistryController(final RegistryService<Revenue> revenueService,
                                      final RegistryMapper<Revenue> revenueMapper) {
-        super(revenueService, revenueMapper);
+        super(revenueService, revenueMapper, creditCardService);
     }
 }

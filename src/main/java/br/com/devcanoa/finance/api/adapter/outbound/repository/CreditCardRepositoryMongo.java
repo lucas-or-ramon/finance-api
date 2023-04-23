@@ -1,10 +1,8 @@
 package br.com.devcanoa.finance.api.adapter.outbound.repository;
 
-import br.com.devcanoa.finance.api.adapter.outbound.mapper.CreditCardEntityMapper;
-import br.com.devcanoa.finance.api.domain.exception.CreditCardException;
-import br.com.devcanoa.finance.api.domain.model.CreditCard;
-import br.com.devcanoa.finance.api.domain.repository.CreditCardRepository;
 import br.com.devcanoa.finance.api.adapter.outbound.entity.CreditCardEntity;
+import br.com.devcanoa.finance.api.domain.exception.CreditCardException;
+import br.com.devcanoa.finance.api.domain.repository.CreditCardRepository;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -13,8 +11,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-import static br.com.devcanoa.finance.api.adapter.outbound.mapper.CreditCardEntityMapper.mapToDomain;
-import static br.com.devcanoa.finance.api.adapter.outbound.mapper.CreditCardEntityMapper.mapToEntity;
 import static java.util.Optional.ofNullable;
 
 @Repository
