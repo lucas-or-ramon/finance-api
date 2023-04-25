@@ -2,8 +2,6 @@ package br.com.devcanoa.finance.api.adapter.inbound.handler;
 
 import br.com.devcanoa.finance.api.domain.exception.ErrorResponse;
 import br.com.devcanoa.finance.api.domain.exception.FinanceException;
-import br.com.devcanoa.finance.api.domain.exception.RegistryAlreadyExistsException;
-import br.com.devcanoa.finance.api.domain.exception.RegistryNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,16 +13,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class FinanceExceptionHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FinanceExceptionHandler.class);
-
-    @ExceptionHandler(value = RegistryNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleException(final RegistryNotFoundException exception) {
-        return getErrorResponseEntity(exception, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(value = RegistryAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleException(final RegistryAlreadyExistsException exception) {
-        return getErrorResponseEntity(exception, HttpStatus.BAD_REQUEST);
-    }
 
     @ExceptionHandler(value = FinanceException.class)
     public ResponseEntity<ErrorResponse> handleException(final FinanceException exception) {

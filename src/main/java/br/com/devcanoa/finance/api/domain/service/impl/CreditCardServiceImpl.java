@@ -1,16 +1,13 @@
 package br.com.devcanoa.finance.api.domain.service.impl;
 
-import br.com.devcanoa.finance.api.adapter.outbound.mapper.CreditCardEntityMapper;
-import br.com.devcanoa.finance.api.domain.exception.CreditCardException;
-import br.com.devcanoa.finance.api.domain.exception.CreditCardNotFoundException;
+import br.com.devcanoa.finance.api.adapter.inbound.dto.Request;
 import br.com.devcanoa.finance.api.domain.model.CreditCard;
+import br.com.devcanoa.finance.api.domain.model.Either;
 import br.com.devcanoa.finance.api.domain.repository.CreditCardRepository;
 import br.com.devcanoa.finance.api.domain.service.CreditCardService;
+import org.bson.types.ObjectId;
 
 import java.util.List;
-
-import static br.com.devcanoa.finance.api.adapter.outbound.mapper.CreditCardEntityMapper.mapToDomain;
-import static br.com.devcanoa.finance.api.adapter.outbound.mapper.CreditCardEntityMapper.mapToEntity;
 
 public class CreditCardServiceImpl implements CreditCardService {
 
@@ -22,36 +19,34 @@ public class CreditCardServiceImpl implements CreditCardService {
 
     @Override
     public List<CreditCard> listAll() {
-        return repository.listAll().stream()
-                .map(CreditCardEntityMapper::mapToDomain)
-                .toList();
+        return repository.listAll().stream().toList();
     }
 
     @Override
-    public CreditCard getById(String id) {
+    public Either<String, CreditCard> getById(final String id) {
         return repository.getById(id)
-                .map(CreditCardEntityMapper::mapToDomain)
-                .orElseThrow(() -> new CreditCardNotFoundException("Credit Card Not Found"));
+                .map(Either::<String, CreditCard>success)
+                .orElse(Either.failure("Credit Card Not Found"));
     }
 
     @Override
-    public void insert(CreditCard creditCard) {
-        repository.save(mapToEntity(creditCard))
-                .map(CreditCardEntityMapper::mapToDomain)
-                .orElseThrow(() -> new CreditCardException("Credit Card Not Saved"));
+    public Either<String, CreditCard> insert(final Request.CreditCardDto creditCard) {
+        return repository.save(creditCard.mapToDomain(new ObjectId().toString()))
+                .map(Either::<String, CreditCard>success)
+                .orElse(Either.failure("Credit Card Not Inserted"));
     }
 
     @Override
-    public void update(CreditCard creditCard) {
-        repository.save(mapToEntity(creditCard))
-                .map(CreditCardEntityMapper::mapToDomain)
-                .orElseThrow(() -> new CreditCardException("Credit Card Not Updated"));
+    public Either<String, CreditCard> update(final String id, final Request.CreditCardDto creditCard) {
+        return repository.save(creditCard.mapToDomain(id))
+                .map(Either::<String, CreditCard>success)
+                .orElse(Either.failure("Credit Card Not Updated"));
     }
 
     @Override
-    public void delete(String id) {
-        repository.delete(id)
-                .map(CreditCardEntityMapper::mapToDomain)
-                .orElseThrow(() -> new CreditCardException("Credit Card Not Deleted"));
+    public Either<String, CreditCard> delete(String id) {
+        return repository.delete(id)
+                .map(Either::<String, CreditCard>success)
+                .orElse(Either.failure("Credit Card Not Deleted"));
     }
 }

@@ -1,6 +1,7 @@
 package br.com.devcanoa.finance.api.domain.service;
 
-import br.com.devcanoa.finance.api.domain.model.FinanceDate;
+import br.com.devcanoa.finance.api.adapter.inbound.dto.Request;
+import br.com.devcanoa.finance.api.domain.model.Either;
 import br.com.devcanoa.finance.api.domain.model.Registry;
 
 import java.util.List;
@@ -9,13 +10,13 @@ public interface RegistryService {
 
     List<Registry> getByDescription(final String description);
 
-    Registry getById(final String id);
+    Either<String, Registry> getById(final String id);
 
-    List<Registry> getByDate(final FinanceDate date);
+    List<Registry> getByDate(final Request.FinanceDateDto date);
 
-    Registry insert(final Registry registry);
+    Either<String, Registry> insert(final Request.RegistryDto request);
 
-    Registry update(final Registry registry);
+    Either<String, Registry> update(final String id, final Request.RegistryDto request);
 
-    void delete(final String id);
+    Either<String, Registry> delete(final String id);
 }

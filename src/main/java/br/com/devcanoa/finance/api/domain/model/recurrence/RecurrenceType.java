@@ -3,13 +3,13 @@ package br.com.devcanoa.finance.api.domain.model.recurrence;
 import br.com.devcanoa.finance.api.domain.model.FinanceDate;
 
 public enum RecurrenceType {
-    FIXED(new FixedRecurrence()),
-    PARCEL(new ParcelRecurrence()),
-    ONCE(new OnceRecurrence());
+    FIXED(new RecurrenceRule.Fixed()),
+    PARCEL(new RecurrenceRule.Parcel()),
+    ONCE(new RecurrenceRule.Once());
 
-    private final RecurrenceRules rules;
+    private final RecurrenceRule rules;
 
-    RecurrenceType(RecurrenceRules rules) {
+    RecurrenceType(RecurrenceRule rules) {
         this.rules = rules;
     }
 

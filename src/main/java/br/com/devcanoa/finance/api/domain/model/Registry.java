@@ -1,5 +1,7 @@
 package br.com.devcanoa.finance.api.domain.model;
 
+import br.com.devcanoa.finance.api.domain.exception.RecurrenceException;
+import br.com.devcanoa.finance.api.domain.exception.RegistryException;
 import br.com.devcanoa.finance.api.domain.model.recurrence.Recurrence;
 
 public class Registry {
@@ -8,7 +10,7 @@ public class Registry {
     private final Double value;
     private final String category;
     private final String description;
-    private final CreditCard creditCard;
+    private final String creditCardId;
     private final Recurrence recurrence;
 
     public static Builder builder() {
@@ -31,23 +33,32 @@ public class Registry {
         return description;
     }
 
-    public CreditCard getCreditCard() {
-        return creditCard;
+    public String getCreditCardId() {
+        return creditCardId;
     }
 
     public Recurrence getRecurrence() {
         return recurrence;
     }
 
+    public boolean hasCreditCard() {
+        return creditCardId != null;
+    }
+
     public static final class Builder {
+        private Registry registry;
         private String id;
         private Double value;
         private String category;
         private String description;
-        private CreditCard creditCard;
+        private String creditCardId;
         private Recurrence recurrence;
 
         private Builder() {}
+
+        private Builder(final Registry registry) {
+            this.registry = registry;
+        }
 
         public Builder id(final String id) {
             this.id = id;
@@ -69,8 +80,8 @@ public class Registry {
             return this;
         }
 
-        public Builder creditCard(final CreditCard creditCard) {
-            this.creditCard = creditCard;
+        public Builder creditCardId(final String creditCardId) {
+            this.creditCardId = creditCardId;
             return this;
         }
 
@@ -80,20 +91,39 @@ public class Registry {
         }
 
         public Registry build() {
-            if (id == null || value == null || category == null || description == null || recurrence == null) {
-                throw new IllegalArgumentException("Registry must have id, value, category, description and recurrence");
+            if (registry != null) {
+                return Registry.builder()
+                        .id(id)
+                        .value(value)
+                        .category(category)
+                        .recurrence(recurrence)
+                        .description(description)
+                        .creditCardId(getValue(registry.getCreditCardId(), creditCardId))
+                        .build();
             }
-            return new Registry(id, value, description, category, creditCard, recurrence);
+            if (id == null || value == null || category == null || description == null || recurrence == null) {
+                throw new RegistryException("Registry must have id, value, category, description and recurrence");
+            }
+
+            if (!recurrence.isValid()) {
+                throw new RecurrenceException("Recurrence must be valid");
+            }
+
+            return new Registry(id, value, description, category, creditCardId, recurrence);
+        }
+
+        private <T> T getValue(final T registryValue, final T builderValue) {
+            return builderValue != null ? builderValue : registryValue;
         }
     }
 
     private Registry(final String id, final Double value, final String description, final String category,
-                    final CreditCard creditCard, final Recurrence recurrence) {
+                    final String creditCardId, final Recurrence recurrence) {
         this.id = id;
         this.value = value;
         this.category = category;
         this.recurrence = recurrence;
         this.description = description;
-        this.creditCard = creditCard;
+        this.creditCardId = creditCardId;
     }
 }

@@ -1,14 +1,13 @@
 package br.com.devcanoa.finance.api.domain.service.impl;
 
-import br.com.devcanoa.finance.api.adapter.inbound.dto.response.AnnualResponse;
+import br.com.devcanoa.finance.api.adapter.inbound.dto.Request;
+import br.com.devcanoa.finance.api.adapter.inbound.dto.Response;
 import br.com.devcanoa.finance.api.domain.exception.FinanceException;
-import br.com.devcanoa.finance.api.domain.model.FinanceDate;
 import br.com.devcanoa.finance.api.domain.model.Monthly;
 import br.com.devcanoa.finance.api.domain.service.AnnualResumeService;
 import br.com.devcanoa.finance.api.domain.service.MonthlyService;
 import org.springframework.core.task.TaskExecutor;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -28,20 +27,20 @@ public class AnnualResumeServiceImpl implements AnnualResumeService {
     }
 
     @Override
-    public AnnualResponse annualResume(final FinanceDate date) {
+    public Response.AnnualDto annualResume(final Request.FinanceDateDto date) {
         final var completableFutures = IntStream.rangeClosed(0, 11)
                 .mapToObj(month -> getCompletableFutures(date.minusMonths(month))).toList();
         return run(completableFutures);
     }
 
-    private CompletableFuture<Monthly> getCompletableFutures(final FinanceDate date) {
+    private CompletableFuture<Monthly> getCompletableFutures(final Request.FinanceDateDto date) {
         return CompletableFuture.supplyAsync(() -> monthlyService.getMonthlyResume(date), taskExecutor);
     }
 
-    private AnnualResponse run(final List<CompletableFuture<Monthly>> completableFutures) {
+    private Response.AnnualDto run(final List<CompletableFuture<Monthly>> completableFutures) {
         try {
             final var monthlyResumes = getMonthlyResumes(completableFutures).get(1000, TimeUnit.MILLISECONDS);
-            return new AnnualResponse(monthlyResumes);
+            return Response.AnnualDto.mapToResponse(monthlyResumes);
         } catch (final InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new FinanceException("Thread Interrupted", e);

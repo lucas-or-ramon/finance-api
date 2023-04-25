@@ -1,8 +1,6 @@
 package br.com.devcanoa.finance.api.adapter.outbound.entity;
 
-import br.com.devcanoa.finance.api.domain.model.CreditCard;
 import br.com.devcanoa.finance.api.domain.model.Registry;
-import br.com.devcanoa.finance.api.domain.model.recurrence.Recurrence;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
@@ -14,14 +12,14 @@ public class RegistryEntity {
     private final String category;
     private final String description;
     private final ObjectId creditCardId;
-    private final Recurrence recurrence;
+    private final RecurrenceEntity recurrence;
 
     public RegistryEntity(final ObjectId id,
                           final Double value,
                           final String category,
                           final String description,
                           final ObjectId creditCardId,
-                          final Recurrence recurrence) {
+                          final RecurrenceEntity recurrence) {
         this.id = id;
         this.value = value;
         this.category = category;
@@ -30,13 +28,12 @@ public class RegistryEntity {
         this.creditCardId = creditCardId;
     }
 
-    public Registry mapToDomain(final CreditCard creditCard) {
+    public Registry mapToDomain() {
         return Registry.builder()
                 .id(id.toString())
                 .value(value)
                 .category(category)
-                .creditCard(creditCard)
-                .recurrence(recurrence)
+                .recurrence(recurrence.mapToDomain())
                 .description(description)
                 .build();
     }
@@ -65,7 +62,7 @@ public class RegistryEntity {
         return creditCardId;
     }
 
-    public Recurrence getRecurrence() {
+    public RecurrenceEntity getRecurrence() {
         return recurrence;
     }
 }

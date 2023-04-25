@@ -17,8 +17,7 @@ public final class QueryMongoRegistry {
 
     public static Query whereRecurrenceHas(final int dateAsNumericValue) {
         return query(new Criteria().andOperator(
-                Criteria.where("recurrence.start").lte(dateAsNumericValue),
-                Criteria.where("recurrence.end").gte(dateAsNumericValue)
-        ));
+                where("recurrence.start").lte(dateAsNumericValue),
+                where("recurrence.end").gte(dateAsNumericValue)));
     }
 }

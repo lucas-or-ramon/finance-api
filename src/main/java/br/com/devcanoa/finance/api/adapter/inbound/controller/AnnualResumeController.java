@@ -1,7 +1,7 @@
 package br.com.devcanoa.finance.api.adapter.inbound.controller;
 
-import br.com.devcanoa.finance.api.adapter.inbound.dto.request.FinanceDateRequest;
-import br.com.devcanoa.finance.api.adapter.inbound.dto.response.AnnualResponse;
+import br.com.devcanoa.finance.api.adapter.inbound.dto.Request;
+import br.com.devcanoa.finance.api.adapter.inbound.dto.Response;
 import br.com.devcanoa.finance.api.domain.service.AnnualResumeService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -25,8 +25,8 @@ public class AnnualResumeController {
     }
 
     @PostMapping(value = "/annual")
-    public ResponseEntity<AnnualResponse> getAnnualResume(@RequestBody @Valid final FinanceDateRequest date) {
+    public ResponseEntity<Response.AnnualDto> getAnnualResume(@RequestBody @Valid final Request.FinanceDateDto date) {
         LOGGER.info("Annual -> date: {}", date);
-        return ResponseEntity.ok(service.annualResume(date.mapToDomain()));
+        return ResponseEntity.ok(service.annualResume(date));
     }
 }

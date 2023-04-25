@@ -1,15 +1,9 @@
 package br.com.devcanoa.finance.api.adapter.inbound.controller;
 
-import br.com.devcanoa.finance.api.adapter.inbound.dto.request.FinanceDateRequest;
-import br.com.devcanoa.finance.api.adapter.inbound.dto.request.RegistryRequest;
-import br.com.devcanoa.finance.api.adapter.inbound.dto.response.RegistryResponse;
-import br.com.devcanoa.finance.api.adapter.inbound.mapper.RegistryMapper;
-import br.com.devcanoa.finance.api.domain.model.FinanceDate;
-import br.com.devcanoa.finance.api.domain.model.Registry;
-import br.com.devcanoa.finance.api.domain.service.CreditCardService;
+import br.com.devcanoa.finance.api.adapter.inbound.dto.Request;
+import br.com.devcanoa.finance.api.adapter.inbound.dto.Response;
 import br.com.devcanoa.finance.api.domain.service.RegistryService;
 import jakarta.validation.Valid;
-import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,66 +12,72 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-public class AbstractRegistryController<T extends Registry> {
+import static br.com.devcanoa.finance.api.adapter.inbound.dto.Response.RegistryDto.mapToResponse;
+
+public class AbstractRegistryController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRegistryController.class);
 
-    private final RegistryMapper<T> mapper;
-    private final RegistryService<T> service;
-    private final CreditCardService creditCardService;
+    private final RegistryService service;
 
-
-    public AbstractRegistryController(final RegistryService<T> service,
-                                      final RegistryMapper<T> mapper,
-                                      final CreditCardService creditCardService) {
-        this.mapper = mapper;
+    public AbstractRegistryController(final RegistryService service) {
         this.service = service;
-        this.creditCardService = creditCardService;
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<RegistryResponse> getById(@PathVariable final String id) {
+    public ResponseEntity<?> getById(@PathVariable final String id) {
         LOGGER.info("Get -> id: {}", id);
-        return ResponseEntity.ok(mapper.mapToResponse(service.getById(id), FinanceDate.now()));
+        final var result = service.getById(id);
+        if (result.isFailure()) {
+            return ResponseEntity.badRequest().body(result.getFailure());
+        }
+        return ResponseEntity.ok(mapToResponse(result.getSuccess()));
     }
 
     @PostMapping
-    public ResponseEntity<String> insert(@RequestBody @Valid final RegistryRequest request) {
+    public ResponseEntity<String> insert(@RequestBody @Valid final Request.RegistryDto request) {
         LOGGER.info("Post -> request: {}", request);
-        final var creditCard = creditCardService.getById(request.creditCardId());
-
-        final var registry = mapper.mapToDomain(new ObjectId().toString(), request, creditCard);
-        service.insert(registry);
+        final var result = service.insert(request);
+        if (result.isFailure()) {
+            return ResponseEntity.badRequest().body(result.getFailure());
+        }
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<String> update(@PathVariable final String id, @RequestBody @Valid final RegistryRequest request) {
+    public ResponseEntity<String> update(@PathVariable final String id,
+                                         @RequestBody @Valid final Request.RegistryDto request) {
         LOGGER.info("Put -> id: {}, request: {}", id, request);
-        service.update(mapper.mapToDomain(id, request));
+        final var result = service.update(id, request);
+        if (result.isFailure()) {
+            return ResponseEntity.badRequest().body(result.getFailure());
+        }
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable final String id) {
         LOGGER.info("Delete -> id: {}", id);
-        service.delete(id);
+        final var result = service.delete(id);
+        if (result.isFailure()) {
+            return ResponseEntity.badRequest().body(result.getFailure());
+        }
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<RegistryResponse>> listByDescription(@RequestParam(name = "description") final String description) {
+    public ResponseEntity<List<Response.RegistryDto>> listByDescription(@RequestParam(name = "description") final String description) {
         LOGGER.info("Get -> description: {}", description);
         return ResponseEntity.ok(service.getByDescription(description).stream()
-                .map(registry -> mapper.mapToResponse(registry, FinanceDate.now()))
+                .map(Response.RegistryDto::mapToResponse)
                 .toList());
     }
 
     @PostMapping("/date")
-    public ResponseEntity<List<RegistryResponse>> getByYearAndMonth(@RequestBody @Valid final FinanceDateRequest date) {
+    public ResponseEntity<List<Response.RegistryDto>> getByYearAndMonth(@RequestBody @Valid final Request.FinanceDateDto date) {
         LOGGER.info("Get -> date: {}", date);
-        return ResponseEntity.ok(service.getByDate(date.mapToDomain()).stream()
-                .map(registry -> mapper.mapToResponse(registry, date.mapToDomain()))
+        return ResponseEntity.ok(service.getByDate(date).stream()
+                .map(Response.RegistryDto::mapToResponse)
                 .toList());
     }
 }

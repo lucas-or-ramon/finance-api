@@ -1,9 +1,9 @@
 package br.com.devcanoa.finance.api.domain.service;
 
-import br.com.devcanoa.finance.api.adapter.inbound.dto.response.AnnualResponse;
-import br.com.devcanoa.finance.api.domain.model.FinanceDate;
+import br.com.devcanoa.finance.api.adapter.inbound.dto.Request;
+import br.com.devcanoa.finance.api.adapter.inbound.dto.Response;
 
 public interface AnnualResumeService {
 
-    AnnualResponse annualResume(final FinanceDate date);
+    Response.AnnualDto annualResume(final Request.FinanceDateDto date);
 }

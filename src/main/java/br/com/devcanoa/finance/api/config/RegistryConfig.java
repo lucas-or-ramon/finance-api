@@ -1,14 +1,12 @@
 package br.com.devcanoa.finance.api.config;
 
-import br.com.devcanoa.finance.api.adapter.inbound.mapper.ExpenditureMapper;
-import br.com.devcanoa.finance.api.adapter.inbound.mapper.RegistryMapper;
-import br.com.devcanoa.finance.api.adapter.inbound.mapper.RevenueMapper;
 import br.com.devcanoa.finance.api.adapter.outbound.entity.ExpenditureEntity;
 import br.com.devcanoa.finance.api.adapter.outbound.entity.RevenueEntity;
+import br.com.devcanoa.finance.api.adapter.outbound.mapper.RegistryEntityMapper;
 import br.com.devcanoa.finance.api.adapter.outbound.repository.RegistryRepositoryMongo;
-import br.com.devcanoa.finance.api.domain.model.Expenditure;
-import br.com.devcanoa.finance.api.domain.model.Revenue;
 import br.com.devcanoa.finance.api.domain.repository.RegistryRepository;
+import br.com.devcanoa.finance.api.domain.service.CategoryService;
+import br.com.devcanoa.finance.api.domain.service.CreditCardService;
 import br.com.devcanoa.finance.api.domain.service.RegistryService;
 import br.com.devcanoa.finance.api.domain.service.impl.RegistryServiceImpl;
 import org.springframework.context.annotation.Bean;
@@ -27,32 +25,22 @@ public class RegistryConfig {
 
     @Bean
     @Primary
-    public RegistryRepository<RevenueEntity> revenueRepository() {
-        return new RegistryRepositoryMongo<>(mongoTemplate, RevenueEntity.class);
+    public RegistryRepository revenueRepository() {
+        return new RegistryRepositoryMongo(mongoTemplate, RevenueEntity.class, new RegistryEntityMapper.Revenue());
     }
 
     @Bean
-    public RegistryRepository<ExpenditureEntity> expenditureRepository() {
-        return new RegistryRepositoryMongo<>(mongoTemplate, ExpenditureEntity.class);
+    public RegistryRepository expenditureRepository() {
+        return new RegistryRepositoryMongo(mongoTemplate, ExpenditureEntity.class, new RegistryEntityMapper.Expenditure());
     }
 
     @Bean
-    public RegistryService<Revenue> revenueService() {
-        return new RegistryServiceImpl<>(revenueRepository(), new RevenueEntityMapper(), creditCardService);
+    public RegistryService revenueService(final CreditCardService creditCardService, final CategoryService categoryService) {
+        return new RegistryServiceImpl(revenueRepository(), creditCardService, categoryService);
     }
 
     @Bean
-    public RegistryService<Expenditure> expenditureService() {
-        return new RegistryServiceImpl<>(expenditureRepository(), new ExpenditureEntityMapper(), creditCardService);
-    }
-
-    @Bean
-    public RegistryMapper<Revenue> revenueMapper() {
-        return new RevenueMapper();
-    }
-
-    @Bean
-    public RegistryMapper<Expenditure> expenditureMapper() {
-        return new ExpenditureMapper();
+    public RegistryService expenditureService(final CreditCardService creditCardService, final CategoryService categoryService) {
+        return new RegistryServiceImpl(expenditureRepository(), creditCardService, categoryService);
     }
 }

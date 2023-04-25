@@ -1,11 +1,5 @@
 package br.com.devcanoa.finance.api.config;
 
-import br.com.devcanoa.finance.api.adapter.inbound.mapper.ExpenditureMapper;
-import br.com.devcanoa.finance.api.adapter.inbound.mapper.MonthlyMapper;
-import br.com.devcanoa.finance.api.adapter.inbound.mapper.RegistryMapper;
-import br.com.devcanoa.finance.api.adapter.inbound.mapper.RevenueMapper;
-import br.com.devcanoa.finance.api.domain.model.Expenditure;
-import br.com.devcanoa.finance.api.domain.model.Revenue;
 import br.com.devcanoa.finance.api.domain.service.AnnualResumeService;
 import br.com.devcanoa.finance.api.domain.service.CreditCardService;
 import br.com.devcanoa.finance.api.domain.service.MonthlyService;
@@ -20,12 +14,12 @@ import org.springframework.core.task.TaskExecutor;
 public class ResumeConfig {
 
     private final CreditCardService creditCardService;
-    private final RegistryService<Expenditure> expenditureService;
-    private final RegistryService<Revenue> revenueService;
+    private final RegistryService expenditureService;
+    private final RegistryService revenueService;
 
     public ResumeConfig(final CreditCardService creditCardService,
-                        final RegistryService<Expenditure> expenditureService,
-                        final RegistryService<Revenue> revenueService) {
+                        final RegistryService expenditureService,
+                        final RegistryService revenueService) {
         this.creditCardService = creditCardService;
         this.expenditureService = expenditureService;
         this.revenueService = revenueService;
@@ -39,11 +33,5 @@ public class ResumeConfig {
     @Bean
     public MonthlyService monthlyService() {
         return new MonthlyServiceImpl(creditCardService, expenditureService, revenueService);
-    }
-
-    @Bean
-    public MonthlyMapper monthlyMapper(final RegistryMapper<Revenue> revenueMapper,
-                                       final RegistryMapper<Expenditure> expenditureMapper) {
-        return new MonthlyMapper(revenueMapper, expenditureMapper);
     }
 }

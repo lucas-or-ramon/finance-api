@@ -18,15 +18,6 @@ public record FinanceDate(int year, int month) {
         return new FinanceDate(now.getYear(), now.getMonthValue());
     }
 
-    public FinanceDate minusMonths(final int i) {
-        if (i < 0 || i > 11) {
-            throw new IllegalArgumentException("i must be between 0 and 11");
-        }
-        return (month - i < 1)
-                ? new FinanceDate(year - 1, 12 - (i - month))
-                : new FinanceDate(year, month - i);
-    }
-
     public int monthsBetween(final FinanceDate end) {
         if (end.getNumericValue() < getNumericValue()) {
             throw new IllegalArgumentException("end must be greater than this");

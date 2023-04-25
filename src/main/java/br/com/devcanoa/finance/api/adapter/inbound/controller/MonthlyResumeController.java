@@ -1,8 +1,7 @@
 package br.com.devcanoa.finance.api.adapter.inbound.controller;
 
-import br.com.devcanoa.finance.api.adapter.inbound.dto.request.FinanceDateRequest;
-import br.com.devcanoa.finance.api.adapter.inbound.dto.response.MonthlyResponse;
-import br.com.devcanoa.finance.api.adapter.inbound.mapper.MonthlyMapper;
+import br.com.devcanoa.finance.api.adapter.inbound.dto.Request;
+import br.com.devcanoa.finance.api.adapter.inbound.dto.Response;
 import br.com.devcanoa.finance.api.domain.service.MonthlyService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -13,23 +12,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static br.com.devcanoa.finance.api.adapter.inbound.dto.Response.MonthlyDto.mapToResponse;
+
 @RestController
 @RequestMapping(value = "/api/v1/resume")
 public class MonthlyResumeController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MonthlyResumeController.class);
 
-    private final MonthlyMapper mapper;
     private final MonthlyService service;
 
-    public MonthlyResumeController(final MonthlyService service, final MonthlyMapper mapper) {
-        this.mapper = mapper;
+    public MonthlyResumeController(final MonthlyService service) {
         this.service = service;
     }
 
     @PostMapping(value = "/monthly")
-    public ResponseEntity<MonthlyResponse> getMonthlyResume(@RequestBody @Valid final FinanceDateRequest date) {
+    public ResponseEntity<Response.MonthlyDto> getMonthlyResume(@RequestBody @Valid final Request.FinanceDateDto date) {
         LOGGER.info("Monthly -> date: {}", date);
-        return ResponseEntity.ok(mapper.mapToResponse(service.getMonthlyResume(date.mapToDomain())));
+        return ResponseEntity.ok(mapToResponse(service.getMonthlyResume(date)));
     }
 }

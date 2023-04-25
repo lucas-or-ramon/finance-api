@@ -12,7 +12,7 @@ public class RevenueEntity extends RegistryEntity {
                          final String category,
                          final String description,
                          final ObjectId creditCardId,
-                         final Recurrence recurrence) {
+                         final RecurrenceEntity recurrence) {
         super(id, value, category, description, creditCardId, recurrence);
     }
 }

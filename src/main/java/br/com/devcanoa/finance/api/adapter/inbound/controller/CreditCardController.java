@@ -1,11 +1,9 @@
 package br.com.devcanoa.finance.api.adapter.inbound.controller;
 
-import br.com.devcanoa.finance.api.adapter.inbound.dto.request.CreditCardRequest;
-import br.com.devcanoa.finance.api.adapter.inbound.dto.response.CreditCardResponse;
-import br.com.devcanoa.finance.api.adapter.inbound.mapper.CreditCardMapper;
+import br.com.devcanoa.finance.api.adapter.inbound.dto.Request;
+import br.com.devcanoa.finance.api.adapter.inbound.dto.Response;
 import br.com.devcanoa.finance.api.domain.service.CreditCardService;
 import jakarta.validation.Valid;
-import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -13,9 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static br.com.devcanoa.finance.api.adapter.inbound.mapper.CreditCardMapper.mapToDomain;
-import static br.com.devcanoa.finance.api.adapter.inbound.mapper.CreditCardMapper.mapToResponse;
 
 @RestController
 @RequestMapping("/api/v1/credit-card")
@@ -30,35 +25,50 @@ public class CreditCardController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<CreditCardResponse>> listAll() {
+    public ResponseEntity<List<Response.CreditCardDto>> listAll() {
         LOGGER.info("Get");
-        return ResponseEntity.ok(creditCardService.listAll().stream().map(CreditCardMapper::mapToResponse).toList());
+        return ResponseEntity.ok(creditCardService.listAll().stream()
+                        .map(Response.CreditCardDto::mapToResponse)
+                        .toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CreditCardResponse> getById(@PathVariable final String id) {
+    public ResponseEntity<?> getById(@PathVariable final String id) {
         LOGGER.info("Get -> id: {}", id);
-        return ResponseEntity.ok(mapToResponse(creditCardService.getById(id)));
+        final var result = creditCardService.getById(id);
+        if (result.isFailure()) {
+            return ResponseEntity.badRequest().body(result.getFailure());
+        }
+        return ResponseEntity.ok(Response.CreditCardDto.mapToResponse(result.getSuccess()));
     }
 
     @PostMapping
-    public ResponseEntity<String> insert(@RequestBody @Valid final CreditCardRequest request) {
+    public ResponseEntity<String> insert(@RequestBody @Valid final Request.CreditCardDto request) {
         LOGGER.info("Post -> request: {}", request);
-        creditCardService.insert(mapToDomain(new ObjectId().toString(), request));
+        final var result = creditCardService.insert(request);
+        if (result.isFailure()) {
+            return ResponseEntity.badRequest().body(result.getFailure());
+        }
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<String> update(@PathVariable final String id, @RequestBody @Valid final CreditCardRequest request) {
+    public ResponseEntity<String> update(@PathVariable final String id, @RequestBody @Valid final Request.CreditCardDto request) {
         LOGGER.info("Put -> id: {}, request: {}", id, request);
-        creditCardService.update(mapToDomain(id, request));
+        final var result = creditCardService.update(id, request);
+        if (result.isFailure()) {
+            return ResponseEntity.badRequest().body(result.getFailure());
+        }
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable final String id) {
         LOGGER.info("Delete -> id: {}", id);
-        creditCardService.delete(id);
+        final var result = creditCardService.delete(id);
+        if (result.isFailure()) {
+            return ResponseEntity.badRequest().body(result.getFailure());
+        }
         return ResponseEntity.ok().build();
     }
 }
