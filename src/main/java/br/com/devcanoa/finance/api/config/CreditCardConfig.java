@@ -21,9 +21,4 @@ public class CreditCardConfig {
     public CreditCardService creditCardService() {
         return new CreditCardServiceImpl(creditCardRepository);
     }
-
-    @Bean
-    public CategoryService categoryService() {
-        return new CategoryServiceImpl();
-    }
 }

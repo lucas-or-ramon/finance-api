@@ -14,7 +14,8 @@ import java.util.List;
 public final class Response {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    public record AnnualDto(double balance, double totalRevenue, double totalExpenditure, List<Monthly> monthlyResumes) {
+    public record AnnualDto(double balance, double totalRevenue, double totalExpenditure,
+                            List<Monthly> monthlyResumes) {
         public static AnnualDto mapToResponse(final List<Monthly> monthlyResumes) {
             final var totalRevenue = monthlyResumes.stream().mapToDouble(Monthly::totalRevenue).sum();
             final var totalExpenditure = monthlyResumes.stream().mapToDouble(Monthly::totalExpenditure).sum();
@@ -40,7 +41,8 @@ public final class Response {
     }
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    public record RegistryDto(String id, Double value, String description, String category, String creditCard, RecurrenceDto recurrence) {
+    public record RegistryDto(String id, Double value, String description, String category, String creditCard,
+                              RecurrenceDto recurrence) {
         public static RegistryDto mapToResponse(final Registry registry) {
             return new RegistryDto(
                     registry.getId(),
@@ -54,7 +56,8 @@ public final class Response {
     }
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    public record RecurrenceDto(RecurrenceType type, int dueDate, FinanceDate start, FinanceDate end, Installments installments) {
+    public record RecurrenceDto(RecurrenceType type, int dueDate, FinanceDate start, FinanceDate end,
+                                Installments installments) {
         public static RecurrenceDto mapToResponse(final Recurrence recurrence) {
             return new RecurrenceDto(
                     recurrence.type(),

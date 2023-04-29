@@ -69,7 +69,7 @@ public class RegistryServiceImpl implements RegistryService {
             }
         }
 
-        final var category = categoryService.getByName(request.category());
+        final var category = categoryService.handle(request.category());
         if (category.isFailure()) {
             return Either.failure(category.getFailure());
         }

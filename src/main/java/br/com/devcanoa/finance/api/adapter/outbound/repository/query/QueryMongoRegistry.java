@@ -20,4 +20,8 @@ public final class QueryMongoRegistry {
                 where("recurrence.start").lte(dateAsNumericValue),
                 where("recurrence.end").gte(dateAsNumericValue)));
     }
+
+    public static Query whereNameIs(final String name) {
+        return query(where("name").is(name));
+    }
 }

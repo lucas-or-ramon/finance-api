@@ -12,10 +12,11 @@ import jakarta.validation.constraints.NotNull;
 public final class Request {
 
     public record RegistryDto(@NotBlank String category, @NotBlank String description, @NotNull @Min(0) Double value,
-                              @NotNull RecurrenceDto recurrence, String creditCardId) {}
+                              @NotNull RecurrenceDto recurrence, String creditCardId) {
+    }
 
     public record RecurrenceDto(@NotNull RecurrenceType type, @Min(1) @Max(31) int dueDate,
-                                 @NotNull FinanceDateDto start, @NotNull FinanceDateDto end) {
+                                @NotNull FinanceDateDto start, @NotNull FinanceDateDto end) {
         public Recurrence mapToDomain() {
             return Recurrence.builder()
                     .type(type)
@@ -30,6 +31,7 @@ public final class Request {
         public FinanceDate mapToDomain() {
             return new FinanceDate(year, month);
         }
+
         public FinanceDateDto minusMonths(final int i) {
             if (i < 0 || i > 11) {
                 throw new IllegalArgumentException("i must be between 0 and 11");

@@ -33,6 +33,7 @@ public class RegistryEntity {
                 .id(id.toString())
                 .value(value)
                 .category(category)
+                .creditCardId(creditCardId != null ? creditCardId.toString() : null)
                 .recurrence(recurrence.mapToDomain())
                 .description(description)
                 .build();
